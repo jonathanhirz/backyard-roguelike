@@ -10,7 +10,9 @@ import luxe.collision.data.*;
 class MenuState extends State {
 
     public function new( _name:String ) {
+
         super({ name:_name });
+
     } //new
 
     override function init() {
@@ -36,7 +38,9 @@ class PlayState extends State {
     var child : Sprite;
 
     public function new( _name:String ) {
+
         super({ name:_name });
+
     } //new
 
     override function init() {
@@ -53,20 +57,21 @@ class PlayState extends State {
         }); //background
 
         player = new Sprite({
+            name : 'player',
             pos : Luxe.screen.mid,
             size : new Vector(30, 50),
             color : new Color().rgb(0x1400b7)
         }); //player
         player.add(new PlayerControls());
-        player.add(new Collider());
+        player.add(new Collider('player_collider'));
 
         child = new Sprite({
             pos : new Vector(player.pos.x + 30, player.pos.y -10),
             size : new Vector(15,25),
-            color : new Color().rgb(0x1526b3)
+            color : new Color().rgb(0x675fd5)
         }); //child
-        child.add(new Collider());
-
+        child.add(new ChildBehavior('child_behavior'));
+        child.add(new Collider('child_collider'));
 
     } //onenter
 
@@ -75,6 +80,15 @@ class PlayState extends State {
 
     } //onleave
 
+    override function update( dt:Float ) {
+
+        var player_child_col = Collision.shapeWithShape(player.get('player_collider').block_collider, child.get('child_collider').block_collider);
+        if(player_child_col != null) {
+            child.get('child_behavior').is_held = true;
+        }
+
+    } //update
+
 } //PlayState
 
 class Main extends luxe.Game {
@@ -82,7 +96,7 @@ class Main extends luxe.Game {
     var machine : States;
     public static var block_collider_pool : Array<Shape>;
 
-    override function config(config:luxe.AppConfig) {
+    override function config( config:luxe.AppConfig ) {
 
         return config;
 
@@ -90,7 +104,6 @@ class Main extends luxe.Game {
 
     override function ready() {
 
-        connect_input();
         block_collider_pool = [];
         machine = new States({ name:'statemachine' });
         machine.add(new MenuState('menu_state'));
@@ -107,25 +120,10 @@ class Main extends luxe.Game {
 
     } //onkeyup
 
-    override function update(dt:Float) {
+    override function update( dt:Float ) {
 
 
     } //update
-
-    function connect_input() {
-
-        Luxe.input.bind_key('up', Key.up);
-        Luxe.input.bind_key('up', Key.key_w);
-        Luxe.input.bind_key('right', Key.right);
-        Luxe.input.bind_key('right', Key.key_d);
-        Luxe.input.bind_key('down', Key.down);
-        Luxe.input.bind_key('down', Key.key_s);
-        Luxe.input.bind_key('left', Key.left);
-        Luxe.input.bind_key('left', Key.key_a);
-        Luxe.input.bind_key('attack', Key.space);
-        Luxe.input.bind_key('toggle_collider', Key.key_t);
-
-    } //connect_input
 
 
 } //Main

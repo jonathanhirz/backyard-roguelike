@@ -12,16 +12,23 @@ class Collider extends Component {
     var shape_drawer : ShapeDrawerLuxe;
     var draw_collider : Bool = false;
 
+    public function new( _name:String ) {
+
+        super({ name:_name });
+
+    } //new
+
     override function init () {
 
         block = cast entity;
         block_collider = Polygon.rectangle(block.pos.x, block.pos.y, block.size.x, block.size.y);
+        block_collider.name = name;
         Main.block_collider_pool.push(block_collider);
         shape_drawer = new ShapeDrawerLuxe();
 
     } //init
 
-    override function update(dt:Float) {
+    override function update( dt:Float ) {
 
         block_collider.position = block.pos;
         if(draw_collider) {
@@ -31,6 +38,7 @@ class Collider extends Component {
         if(Luxe.input.inputpressed('toggle_collider')) {
             draw_collider = !draw_collider;
         }
+
     } //update
 
 } //Collider

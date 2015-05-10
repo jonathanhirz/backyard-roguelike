@@ -14,7 +14,7 @@ class PlayerControls extends Component {
     var v_acceleration : Float = 0;
     var velocity_max : Float = 15;
     var acceleration_speed : Int = 10;
-    var dampening_amount : Float = 0.85;
+    var dampening_amount : Float = 0.856;
     var cancel_dampening_amount : Float = 0.85;
 
     // camera vars
@@ -24,10 +24,11 @@ class PlayerControls extends Component {
     override function init() {
 
         player = cast entity;
+        connect_input();
 
     } //init
 
-    override function update(dt:Float) {
+    override function update( dt:Float ) {
 
         // if we are below max velocity, add acceleration to velocity each frame
         if(Math.abs(h_velocity) < velocity_max) h_velocity += h_acceleration * dt;
@@ -38,30 +39,30 @@ class PlayerControls extends Component {
         player.pos.y += v_velocity;
 
         // basic 4 way movement, set acceleration in movement direction, cancel movement in opposite direction
-        if(Luxe.input.inputdown("left")) {
+        if(Luxe.input.inputdown('left')) {
             if(h_velocity > 0) h_velocity *= cancel_dampening_amount;
             h_acceleration = -acceleration_speed;
         }
-        if(Luxe.input.inputdown("right")) {
+        if(Luxe.input.inputdown('right')) {
             if(h_velocity < 0) h_velocity *= cancel_dampening_amount;
             h_acceleration = acceleration_speed;
         }
-        if(Luxe.input.inputdown("up")) {
+        if(Luxe.input.inputdown('up')) {
             if(v_velocity > 0) v_velocity *= cancel_dampening_amount;
             v_acceleration = -acceleration_speed;
         }
-        if(Luxe.input.inputdown("down")) {
+        if(Luxe.input.inputdown('down')) {
            if(v_velocity < 0) v_velocity *= cancel_dampening_amount;
             v_acceleration = acceleration_speed;
         }
 
         // stop movement if opposite keys are pressed, or if neither direction is pressed
         // gotta love that combined AND/OR logic...
-        if((!Luxe.input.inputdown("left") && !Luxe.input.inputdown("right")) || (Luxe.input.inputdown("left") && Luxe.input.inputdown("right"))) {
+        if((!Luxe.input.inputdown('left') && !Luxe.input.inputdown('right')) || (Luxe.input.inputdown('left') && Luxe.input.inputdown('right'))) {
             h_acceleration = 0;
             h_velocity *= dampening_amount;
         }
-        if((!Luxe.input.inputdown("up") && !Luxe.input.inputdown("down")) || (Luxe.input.inputdown("up") && Luxe.input.inputdown("down"))) {
+        if((!Luxe.input.inputdown('up') && !Luxe.input.inputdown('down')) || (Luxe.input.inputdown('up') && Luxe.input.inputdown('down'))) {
             v_acceleration = 0;
             v_velocity *= dampening_amount;
         }
@@ -88,6 +89,22 @@ class PlayerControls extends Component {
         Luxe.camera.center.weighted_average_xy(player.pos.x, player.pos.y, 10);
 
     } //update
+
+    function connect_input() {
+
+        Luxe.input.bind_key('up', Key.up);
+        Luxe.input.bind_key('up', Key.key_w);
+        Luxe.input.bind_key('right', Key.right);
+        Luxe.input.bind_key('right', Key.key_d);
+        Luxe.input.bind_key('down', Key.down);
+        Luxe.input.bind_key('down', Key.key_s);
+        Luxe.input.bind_key('left', Key.left);
+        Luxe.input.bind_key('left', Key.key_a);
+        Luxe.input.bind_key('attack', Key.space);
+        Luxe.input.bind_key('toggle_collider', Key.key_t);
+        Luxe.input.bind_key('toggle_held', Key.enter);
+
+    } //connect_input
 
 
 } //PlayerControls
