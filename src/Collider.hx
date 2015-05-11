@@ -12,7 +12,7 @@ class Collider extends Component {
     var shape_drawer : ShapeDrawerLuxe;
     var draw_collider : Bool = false;
 
-    public function new( _name:String ) {
+    public function new(_name:String) {
 
         super({ name:_name });
 
@@ -28,9 +28,10 @@ class Collider extends Component {
 
     } //init
 
-    override function update( dt:Float ) {
+    override function update(dt:Float) {
 
         block_collider.position = block.pos;
+        block_collider.rotation = block.rotation_z;
         if(draw_collider) {
             shape_drawer.drawPolygon(block_collider);
         }
@@ -40,5 +41,6 @@ class Collider extends Component {
         }
 
     } //update
+
 
 } //Collider

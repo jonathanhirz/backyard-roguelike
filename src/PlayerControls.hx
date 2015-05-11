@@ -28,7 +28,7 @@ class PlayerControls extends Component {
 
     } //init
 
-    override function update( dt:Float ) {
+    override function update(dt:Float) {
 
         // if we are below max velocity, add acceleration to velocity each frame
         if(Math.abs(h_velocity) < velocity_max) h_velocity += h_acceleration * dt;
@@ -42,18 +42,22 @@ class PlayerControls extends Component {
         if(Luxe.input.inputdown('left')) {
             if(h_velocity > 0) h_velocity *= cancel_dampening_amount;
             h_acceleration = -acceleration_speed;
+            player.rotation_z = 270;
         }
         if(Luxe.input.inputdown('right')) {
             if(h_velocity < 0) h_velocity *= cancel_dampening_amount;
             h_acceleration = acceleration_speed;
+            player.rotation_z = 90;
         }
         if(Luxe.input.inputdown('up')) {
             if(v_velocity > 0) v_velocity *= cancel_dampening_amount;
             v_acceleration = -acceleration_speed;
+            player.rotation_z = 0;
         }
         if(Luxe.input.inputdown('down')) {
            if(v_velocity < 0) v_velocity *= cancel_dampening_amount;
             v_acceleration = acceleration_speed;
+            player.rotation_z = 180;
         }
 
         // stop movement if opposite keys are pressed, or if neither direction is pressed

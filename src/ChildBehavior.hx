@@ -8,7 +8,7 @@ class ChildBehavior extends Component {
     var player : Sprite;
     var is_held : Bool = false;
 
-    public function new( _name:String ) {
+    public function new(_name:String) {
 
         super({ name:_name });
 
@@ -21,7 +21,7 @@ class ChildBehavior extends Component {
 
     } //init
 
-    override function update( dt:Float ) {
+    override function update(dt:Float) {
 
         if(is_held) {
 
