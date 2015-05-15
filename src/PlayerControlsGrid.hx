@@ -2,12 +2,14 @@ import luxe.Component;
 import luxe.Sprite;
 import luxe.Vector;
 import luxe.Input;
+import luxe.tilemaps.Tilemap;
 
 class PlayerControlsGrid extends Component {
 
     var player : Sprite;
     var player_width : Float;
     var player_height : Float;
+    var tilemap : Tilemap;
 
     override function init() {
 
@@ -15,6 +17,7 @@ class PlayerControlsGrid extends Component {
         player = cast entity;
         player_width = player.size.x;
         player_height = player.size.y;
+        tilemap = cast Main.PlayState.map1;
 
 
     } //init
@@ -22,28 +25,24 @@ class PlayerControlsGrid extends Component {
     override function update(dt:Float) {
 
         if(Luxe.input.inputpressed('up')) {
-
-            player.pos.y -= player_height;
             player.rotation_z = 0;
-
+            if(tilemap.tile_at_pos('collider', new Vector(player.pos.x, player.pos.y - 32), 1).id != 0) return;
+            player.pos.y -= player_height;
         }
         if(Luxe.input.inputpressed('right')) {
-
-            player.pos.x += player_width;
             player.rotation_z = 90;
-
+            if(tilemap.tile_at_pos('collider', new Vector(player.pos.x + 32, player.pos.y), 1).id != 0) return;
+            player.pos.x += player_width;
         }
         if(Luxe.input.inputpressed('down')) {
-
-            player.pos.y += player_height;
             player.rotation_z = 180;
-
+            if(tilemap.tile_at_pos('collider', new Vector(player.pos.x, player.pos.y + 32), 1).id != 0) return;
+            player.pos.y += player_height;
         }
         if(Luxe.input.inputpressed('left')) {
-
-            player.pos.x -= player_width;
             player.rotation_z = 270;
-
+            if(tilemap.tile_at_pos('collider', new Vector(player.pos.x - 32, player.pos.y), 1).id != 0) return;
+            player.pos.x -= player_width;
         }
 
     } //update

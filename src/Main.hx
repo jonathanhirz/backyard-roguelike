@@ -9,6 +9,10 @@ import luxe.collision.Collision;
 import luxe.collision.shapes.*;
 import luxe.collision.data.*;
 
+import luxe.tilemaps.Ortho;
+import luxe.tilemaps.Tilemap;
+import luxe.importers.tiled.TiledMap;
+
 class MenuState extends State {
 
     public function new(_name:String) {
@@ -41,6 +45,7 @@ class PlayState extends State {
     var player : Sprite;
     var player_texture : Texture;
     var child : Sprite;
+    public static var map1 : TiledMap;
 
     public function new(_name:String) {
 
@@ -54,17 +59,40 @@ class PlayState extends State {
 
     override function onenter<T>(_value:T) {
 
-        var background = new Sprite({
-            pos : Luxe.screen.mid,
-            size : new Vector(500, 500),
-            color : new Color().rgb(0x198810)
-        }); //background
+        // var background = new Sprite({
+        //     pos : Luxe.screen.mid,
+        //     size : new Vector(500, 500),
+        //     color : new Color().rgb(0x198810)
+        // }); //background
+
+        var tilemap = Luxe.resources.text('assets/tilemap.tmx');
+
+        map1 =  new TiledMap({ 
+            tiled_file_data : tilemap.asset.text,
+            format : 'tmx',
+            pos : new Vector(0,0)
+        }); //map1
+
+        for(layer in map1.layers) {
+            if(layer.name == 'collider') {
+                layer.visible = false;
+            }
+        }
+
+        map1.display({
+            scale : 1,
+            depth : 0,
+            grid : false,
+            filter : FilterType.nearest
+        });
+
 
         if(player_texture == null) player_texture = Luxe.resources.texture('assets/player.png');
         player = new Sprite({
             name : 'player',
+            depth : 1,
             texture : player_texture,
-            pos : Luxe.screen.mid,
+            pos : new Vector(48,48)
         }); //player
         // player.add(new PlayerControls());
         player.add(new PlayerControlsGrid());
@@ -74,7 +102,7 @@ class PlayState extends State {
             pos : new Vector(player.pos.x + 30, player.pos.y -10),
             size : new Vector(15,25),
             color : new Color().rgb(0x675fd5),
-            depth : 1
+            depth : 2
         }); //child
         child.add(new ChildBehavior('child_behavior'));
         child.add(new Collider('child_collider'));
@@ -93,6 +121,9 @@ class PlayState extends State {
             child.get('child_behavior').is_held = true;
         }
 
+        // trace(map1.tile_at_pos('tiles', player.pos, 1));
+        // trace(map1.worldpos_to_map(player.pos, 1));
+
     } //update
 
 
@@ -107,6 +138,10 @@ class Main extends luxe.Game {
     override function config( config:luxe.AppConfig ) {
 
         config.preload.textures.push({ id:'assets/player.png' });
+        config.preload.textures.push({ id:'assets/tiles.png' });
+
+        config.preload.texts.push({ id:'assets/tilemap.tmx' });
+
         return config;
 
     } //config
