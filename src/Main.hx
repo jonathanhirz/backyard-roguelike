@@ -73,11 +73,7 @@ class PlayState extends State {
             pos : new Vector(0,0)
         }); //map1
 
-        for(layer in map1.layers) {
-            if(layer.name == 'collider') {
-                layer.visible = false;
-            }
-        }
+        map1.layer('collider').visible = false;
 
         map1.display({
             scale : 1,
@@ -92,7 +88,9 @@ class PlayState extends State {
             name : 'player',
             depth : 1,
             texture : player_texture,
-            pos : new Vector(48,48)
+            // pos : new Vector(64+32,64+32)
+            // pos : new Vector(map1.tile_pos('tiles', 1, 1).x + player_texture.width/2, map1.tile_pos('tiles', 1, 1).y + player_texture.height/2)
+            pos : map1.tile_pos('tiles', 1, 1).add_xyz(map1.tile_width/2, map1.tile_height/2)
         }); //player
         // player.add(new PlayerControls());
         player.add(new PlayerControlsGrid());
