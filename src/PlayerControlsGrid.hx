@@ -10,6 +10,8 @@ class PlayerControlsGrid extends Component {
     var player_width : Float;
     var player_height : Float;
     var tilemap : Tilemap;
+    var step_speed : Float = 0.25;
+    var next_step : Float = 0;
 
     override function init() {
 
@@ -23,25 +25,41 @@ class PlayerControlsGrid extends Component {
 
     override function update(dt:Float) {
 
-        if(Luxe.input.inputpressed('up')) {
-            player.rotation_z = 0;
-            if(tilemap.tile_at_pos('collider', new Vector(player.pos.x, player.pos.y - tilemap.tile_width), 1).id != 0) return;
-            player.pos.y -= tilemap.tile_width;
+        if(Luxe.time > next_step) {
+            if(Luxe.input.inputdown('up')) {
+                player.rotation_z = 0;
+                if(tilemap.tile_at_pos('ground', new Vector(player.pos.x, player.pos.y - tilemap.tile_height), 1).id <= 16) return;
+                player.pos.y -= tilemap.tile_height;
+                next_step = Luxe.time + step_speed;
+                Luxe.events.fire('took_a_step');
+            }
+            if(Luxe.input.inputdown('right')) {
+                player.rotation_z = 90;
+                if(tilemap.tile_at_pos('ground', new Vector(player.pos.x + tilemap.tile_width, player.pos.y), 1).id <= 16) return;
+                player.pos.x += tilemap.tile_width;
+                next_step = Luxe.time + step_speed;
+                Luxe.events.fire('took_a_step');
+            }
+            if(Luxe.input.inputdown('down')) {
+                player.rotation_z = 180;
+                if(tilemap.tile_at_pos('ground', new Vector(player.pos.x, player.pos.y + tilemap.tile_height), 1).id <= 16) return;
+                player.pos.y += tilemap.tile_height;
+                next_step = Luxe.time + step_speed;
+                Luxe.events.fire('took_a_step');
+            }
+            if(Luxe.input.inputdown('left')) {
+                player.rotation_z = 270;
+                if(tilemap.tile_at_pos('ground', new Vector(player.pos.x - tilemap.tile_width, player.pos.y), 1).id <= 16) return;
+                player.pos.x -= tilemap.tile_width;
+                next_step = Luxe.time + step_speed;
+                Luxe.events.fire('took_a_step');
+            }
         }
-        if(Luxe.input.inputpressed('right')) {
-            player.rotation_z = 90;
-            if(tilemap.tile_at_pos('collider', new Vector(player.pos.x + tilemap.tile_width, player.pos.y), 1).id != 0) return;
-            player.pos.x += tilemap.tile_width;
-        }
-        if(Luxe.input.inputpressed('down')) {
-            player.rotation_z = 180;
-            if(tilemap.tile_at_pos('collider', new Vector(player.pos.x, player.pos.y + tilemap.tile_width), 1).id != 0) return;
-            player.pos.y += tilemap.tile_width;
-        }
-        if(Luxe.input.inputpressed('left')) {
-            player.rotation_z = 270;
-            if(tilemap.tile_at_pos('collider', new Vector(player.pos.x - tilemap.tile_width, player.pos.y), 1).id != 0) return;
-            player.pos.x -= tilemap.tile_width;
+        if(Luxe.input.inputreleased('up') ||
+            Luxe.input.inputreleased('right') ||
+            Luxe.input.inputreleased('down') ||
+            Luxe.input.inputreleased('left')) {
+                next_step = Luxe.time;
         }
 
     } //update

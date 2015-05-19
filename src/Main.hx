@@ -45,6 +45,8 @@ class PlayState extends State {
     var player : Sprite;
     var player_texture : Texture;
     var child : Sprite;
+    var enemy : Sprite;
+    var enemy_texture : Texture;
     public static var map1 : TiledMap;
 
     public function new(_name:String) {
@@ -73,8 +75,6 @@ class PlayState extends State {
             pos : new Vector(0,0)
         }); //map1
 
-        map1.layer('collider').visible = false;
-
         map1.display({
             scale : 1,
             depth : 0,
@@ -90,7 +90,7 @@ class PlayState extends State {
             texture : player_texture,
             // pos : new Vector(64+32,64+32)
             // pos : new Vector(map1.tile_pos('tiles', 1, 1).x + player_texture.width/2, map1.tile_pos('tiles', 1, 1).y + player_texture.height/2)
-            pos : map1.tile_pos('tiles', 1, 1).add_xyz(map1.tile_width/2, map1.tile_height/2)
+            pos : map1.tile_pos('ground', 1, 1).add_xyz(map1.tile_width/2, map1.tile_height/2)
         }); //player
         // player.add(new PlayerControls());
         player.add(new PlayerControlsGrid());
@@ -105,6 +105,15 @@ class PlayState extends State {
         child.add(new ChildBehavior('child_behavior'));
         child.add(new Collider('child_collider'));
 
+        if(enemy_texture == null) enemy_texture = Luxe.resources.texture('assets/enemy.png');
+        enemy = new Sprite({
+            name : 'enemy',
+            depth : 1,
+            texture : enemy_texture,
+            pos : map1.tile_pos('ground', 5,3).add_xyz(map1.tile_width/2, map1.tile_height/2)
+        }); //enemy
+        enemy.add(new Enemy('enemy'));
+
     } //onenter
 
     override function onleave<T>(_value:T) {
@@ -113,6 +122,8 @@ class PlayState extends State {
     } //onleave
 
     override function update(dt:Float) {
+
+        Luxe.camera.center.weighted_average_xy(player.pos.x, player.pos.y, 10);
 
         var player_child_col = Collision.shapeWithShape(player.get('player_collider').block_collider, child.get('child_collider').block_collider);
         if(player_child_col != null) {
@@ -136,6 +147,7 @@ class Main extends luxe.Game {
     override function config( config:luxe.AppConfig ) {
 
         config.preload.textures.push({ id:'assets/player.png' });
+        config.preload.textures.push({ id:'assets/enemy.png' });
         config.preload.textures.push({ id:'assets/tiles.png' });
 
         config.preload.texts.push({ id:'assets/tilemap.tmx' });
@@ -151,6 +163,8 @@ class Main extends luxe.Game {
         machine.add(new MenuState('menu_state'));
         machine.add(new PlayState('play_state'));
         machine.set('play_state');
+        // Luxe.camera.zoom = 2;
+        // Luxe.camera.center = new Vector(240,160);
 
     } //ready
 
