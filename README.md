@@ -16,8 +16,12 @@ upgradeable spatula/weapon
 upgradeable apron/armor
 
 ### todo
+* PlayerControlsGrid -> Input.hx - reads input, fires events that player and enemy listen for (took_a_step('direction'))
+* new class - PlayerAction - listens for event, looks at tile in direction, decides action (walk, block, fight, etc)
+* enemies still listen for the step event, do their thing
 * turn/energy system
 * get an enemy on screen, moves when/after player moves (events?)
+* fix movement. arrows move one space at a time. no holding movement. touch/mouse to click on a spot and move multiple tiles.
 
 
 ### done (put a date!)
