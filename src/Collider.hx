@@ -23,7 +23,7 @@ class Collider extends Component {
         block = cast entity;
         block_collider = Polygon.rectangle(block.pos.x, block.pos.y, block.size.x, block.size.y);
         block_collider.name = name;
-        Main.block_collider_pool.push(block_collider);
+        PlayState.block_collider_pool.push(block_collider);
         shape_drawer = new ShapeDrawerLuxe();
 
     } //init
