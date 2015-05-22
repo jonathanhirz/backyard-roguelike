@@ -8,6 +8,8 @@ typedef MoveEvent = {
     direction : String
 }
 
+//TODO: new class - PlayerAction - listens for event, looks at tile in direction, decides action (walk, block, fight, etc)
+
 class PlayerBehavior extends Component {
 
     var player : Sprite;
@@ -21,9 +23,10 @@ class PlayerBehavior extends Component {
 
     override function init() {
 
+        trace("player inited");
         player = cast entity;
         tilemap = cast PlayState.map1;
-        entity.events.listen('took_a_step', move);
+        Luxe.events.listen('took_a_step', move);
 
     } //init
 
@@ -36,6 +39,7 @@ class PlayerBehavior extends Component {
 
         switch(data.direction) {
             case 'up':
+                trace("up event received");
                 player.rotation_z = 0;
                 if(tilemap.tile_at_pos('ground', new Vector(player.pos.x, player.pos.y - tilemap.tile_height), 1).id <= 16) return;
                 player.pos.y -= tilemap.tile_height;

@@ -26,12 +26,13 @@ class PlayState extends State {
 
         super({ name:_name });
         block_collider_pool = [];
+        connect_input();
 
     } //new
 
     override function init() {
 
-        connect_input();
+        
 
     } //init
 
@@ -72,6 +73,7 @@ class PlayState extends State {
         child.add(new ChildBehavior('child_behavior'));
         child.add(new Collider('child_collider'));
 
+        //DONE: get an enemy on screen 05/15/2015
         if(enemy_texture == null) enemy_texture = Luxe.resources.texture('assets/enemy.png');
         enemy = new Sprite({
             name : 'enemy',
@@ -97,22 +99,27 @@ class PlayState extends State {
             child.get('child_behavior').is_held = true;
         }
 
+        //DONE: fix movement. arrows move one space at a time. no holding movement. 05/20/2015
+        //DONE: PlayerControlsGrid -> Input.hx - reads input, fires events that player and enemy listen for (took_a_step('direction')) 05/20/2015
+        //TODO: touch/mouse to click on a spot and move multiple tiles.
         if(Luxe.input.inputpressed('up')) {
-            player.events.fire('took_a_step', { direction:up });
+            trace("up pressed");
+            Luxe.events.fire('took_a_step', { direction:up });
         }
         if(Luxe.input.inputpressed('right')) {
-            player.events.fire('took_a_step', { direction:right });
+            Luxe.events.fire('took_a_step', { direction:right });
         }
         if(Luxe.input.inputpressed('down')) {
-            player.events.fire('took_a_step', { direction:down });
+            Luxe.events.fire('took_a_step', { direction:down });
         }
         if(Luxe.input.inputpressed('left')) {
-            player.events.fire('took_a_step', { direction:left });
+            Luxe.events.fire('took_a_step', { direction:left });
         }
 
     } //update
 
     function connect_input() {
+        trace("input connected");
 
         Luxe.input.bind_key('up', Key.up);
         Luxe.input.bind_key('up', Key.key_w);

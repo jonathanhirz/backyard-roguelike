@@ -22,6 +22,7 @@ class Enemy extends Component {
 
     } //update
 
+    //TODO: moves when/after player moves (events?)
     function move(_) {
         // trace('event!');
     }
