@@ -1,5 +1,4 @@
 {
-
   luxe:{
     window: {
       width:960,
@@ -30,7 +29,5 @@
     files : {
       assets : 'assets/'
     }
-
   }
-
 }

@@ -3,12 +3,13 @@ import luxe.Sprite;
 import luxe.Vector;
 import luxe.Events;
 import luxe.tilemaps.Tilemap;
+import CustomDefines;
 
-typedef MoveEvent = {
-    direction : String
-}
+// typedef MoveEvent = {
+//     direction : String
+// }
 
-//TODO: new class - PlayerAction - listens for event, looks at tile in direction, decides action (walk, block, fight, etc)
+//DONE: new class - PlayerAction - listens for event, looks at tile in direction, decides action (walk, block, fight, etc)
 
 class PlayerBehavior extends Component {
 
@@ -23,7 +24,6 @@ class PlayerBehavior extends Component {
 
     override function init() {
 
-        trace("player inited");
         player = cast entity;
         tilemap = cast PlayState.map1;
         Luxe.events.listen('took_a_step', move);
@@ -37,24 +37,29 @@ class PlayerBehavior extends Component {
 
     function move(data:MoveEvent) {
 
+        //TODO: on direction check, see if there's an enemy on that tile we want to move to. if there is, run attack function and return (don't move)
+
         switch(data.direction) {
             case 'up':
-                trace("up event received");
                 player.rotation_z = 0;
                 if(tilemap.tile_at_pos('ground', new Vector(player.pos.x, player.pos.y - tilemap.tile_height), 1).id <= 16) return;
                 player.pos.y -= tilemap.tile_height;
+                Luxe.events.fire('player_took_action');
             case 'right':
                 player.rotation_z = 90;
                 if(tilemap.tile_at_pos('ground', new Vector(player.pos.x + tilemap.tile_width, player.pos.y), 1).id <= 16) return;
                 player.pos.x += tilemap.tile_width;
+                Luxe.events.fire('player_took_action');
             case 'down':
                 player.rotation_z = 180;
                 if(tilemap.tile_at_pos('ground', new Vector(player.pos.x, player.pos.y + tilemap.tile_height), 1).id <= 16) return;
                 player.pos.y += tilemap.tile_height;
+                Luxe.events.fire('player_took_action');
             case 'left':
                 player.rotation_z = 270;
                 if(tilemap.tile_at_pos('ground', new Vector(player.pos.x - tilemap.tile_width, player.pos.y), 1).id <= 16) return;
                 player.pos.x -= tilemap.tile_width;
+                Luxe.events.fire('player_took_action');
         }
 
     } //move

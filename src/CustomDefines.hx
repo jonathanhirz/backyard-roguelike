@@ -1,0 +1,3 @@
+typedef MoveEvent = {
+    direction : String
+}

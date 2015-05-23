@@ -21,18 +21,18 @@ class PlayState extends State {
     var enemy_texture : Texture;
     public static var map1 : TiledMap;
     public static var block_collider_pool : Array<Shape>;
+    public static var enemy_pool : Array<Sprite>;
 
     public function new(_name:String) {
 
         super({ name:_name });
         block_collider_pool = [];
+        enemy_pool = [];
         connect_input();
 
     } //new
 
     override function init() {
-
-        
 
     } //init
 
@@ -75,13 +75,18 @@ class PlayState extends State {
 
         //DONE: get an enemy on screen 05/15/2015
         if(enemy_texture == null) enemy_texture = Luxe.resources.texture('assets/enemy.png');
-        enemy = new Sprite({
-            name : 'enemy',
-            depth : 1,
-            texture : enemy_texture,
-            pos : map1.tile_pos('ground', 5,3).add_xyz(map1.tile_width/2, map1.tile_height/2)
-        }); //enemy
-        enemy.add(new Enemy('enemy'));
+        for(i in 0...10) {
+            enemy = new Sprite({
+                name : 'enemy',
+                name_unique : true,
+                depth : 1,
+                texture : enemy_texture,
+                //TODO: check position where enemy will be placed, make sure it's valid
+                pos : map1.tile_pos('ground', Luxe.utils.random.int(1,20), Luxe.utils.random.int(1,20)).add_xyz(map1.tile_width/2, map1.tile_height/2)
+            }); //enemy
+            enemy.add(new Enemy('enemy'));
+            enemy_pool.push(enemy);
+        }
 
     } //onenter
 
@@ -101,9 +106,8 @@ class PlayState extends State {
 
         //DONE: fix movement. arrows move one space at a time. no holding movement. 05/20/2015
         //DONE: PlayerControlsGrid -> Input.hx - reads input, fires events that player and enemy listen for (took_a_step('direction')) 05/20/2015
-        //TODO: touch/mouse to click on a spot and move multiple tiles.
+        //TODO: @later touch/mouse to click on a spot and move multiple tiles.
         if(Luxe.input.inputpressed('up')) {
-            trace("up pressed");
             Luxe.events.fire('took_a_step', { direction:up });
         }
         if(Luxe.input.inputpressed('right')) {
@@ -115,11 +119,13 @@ class PlayState extends State {
         if(Luxe.input.inputpressed('left')) {
             Luxe.events.fire('took_a_step', { direction:left });
         }
+        if(Luxe.input.inputpressed('skip')) {
+            Luxe.events.fire('player_took_action');
+        }
 
     } //update
 
     function connect_input() {
-        trace("input connected");
 
         Luxe.input.bind_key('up', Key.up);
         Luxe.input.bind_key('up', Key.key_w);
@@ -129,7 +135,7 @@ class PlayState extends State {
         Luxe.input.bind_key('down', Key.key_s);
         Luxe.input.bind_key('left', Key.left);
         Luxe.input.bind_key('left', Key.key_a);
-        Luxe.input.bind_key('attack', Key.space);
+        Luxe.input.bind_key('skip', Key.space);
         Luxe.input.bind_key('toggle_collider', Key.key_t);
         Luxe.input.bind_key('toggle_held', Key.enter);
 
