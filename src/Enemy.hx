@@ -19,7 +19,7 @@ class Enemy extends Component {
 
     override function init() {
 
-        Luxe.events.listen('player_took_action', move);
+        Luxe.events.listen('player_moved_or_skipped', move);
         tilemap = cast PlayState.map1;
 
 

@@ -81,7 +81,7 @@ class PlayState extends State {
                 name_unique : true,
                 depth : 1,
                 texture : enemy_texture,
-                //TODO: check position where enemy will be placed, make sure it's valid
+                //TODO: check position where enemy will be placed, make sure it's valid. check tile_at_pos for valid floor tile, make sure not on player/other enemy
                 pos : map1.tile_pos('ground', Luxe.utils.random.int(1,20), Luxe.utils.random.int(1,20)).add_xyz(map1.tile_width/2, map1.tile_height/2)
             }); //enemy
             enemy.add(new Enemy('enemy'));
@@ -108,19 +108,19 @@ class PlayState extends State {
         //DONE: PlayerControlsGrid -> Input.hx - reads input, fires events that player and enemy listen for (took_a_step('direction')) 05/20/2015
         //TODO: @later touch/mouse to click on a spot and move multiple tiles.
         if(Luxe.input.inputpressed('up')) {
-            Luxe.events.fire('took_a_step', { direction:up });
+            Luxe.events.fire('input_was_pressed', { direction:up });
         }
         if(Luxe.input.inputpressed('right')) {
-            Luxe.events.fire('took_a_step', { direction:right });
+            Luxe.events.fire('input_was_pressed', { direction:right });
         }
         if(Luxe.input.inputpressed('down')) {
-            Luxe.events.fire('took_a_step', { direction:down });
+            Luxe.events.fire('input_was_pressed', { direction:down });
         }
         if(Luxe.input.inputpressed('left')) {
-            Luxe.events.fire('took_a_step', { direction:left });
+            Luxe.events.fire('input_was_pressed', { direction:left });
         }
         if(Luxe.input.inputpressed('skip')) {
-            Luxe.events.fire('player_took_action');
+            Luxe.events.fire('player_moved_or_skipped');
         }
 
     } //update
