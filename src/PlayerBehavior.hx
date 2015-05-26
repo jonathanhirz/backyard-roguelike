@@ -37,8 +37,9 @@ class PlayerBehavior extends Component {
 
     function move(data:MoveEvent) {
 
-        //TODO: on direction check, see if there's an enemy on that tile we want to move to. if there is, run attack function and return (don't move)
-
+        //DONE: on direction check, see if there's an enemy on that tile we want to move to. if there is, run attack function and return (don't move)
+        //TODO: attack fires an event, takes hp from enemy hit, kills/removes if necesary
+        trace('entered move');
         switch(data.direction) {
             case 'up':
                 player.rotation_z = 0;

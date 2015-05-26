@@ -28,7 +28,7 @@ class PlayState extends State {
         super({ name:_name });
         block_collider_pool = [];
         enemy_pool = [];
-        connect_input();
+        // connect_input();
 
     } //new
 
@@ -37,6 +37,9 @@ class PlayState extends State {
     } //init
 
     override function onenter<T>(_value:T) {
+
+        connect_input();
+        Luxe.showConsole(true);
 
         var tilemap = Luxe.resources.text('assets/tilemap.tmx');
 

@@ -8,6 +8,8 @@ import CustomDefines;
 class Enemy extends Component {
 
     //TODO: each enemy needs an 'awareness' state: lost/wandering, aware of player and hunting, ready to attach
+    //TODO: enemy needs fight action, able to hit player
+    //TODO: @fix movement where player and enemy will land on same tile
 
     var tilemap : Tilemap;
 
