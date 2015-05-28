@@ -39,7 +39,7 @@ class PlayState extends State {
     override function onenter<T>(_value:T) {
 
         connect_input();
-        Luxe.showConsole(true);
+        // Luxe.showConsole(true);
 
         var tilemap = Luxe.resources.text('assets/tilemap.tmx');
 
@@ -111,16 +111,16 @@ class PlayState extends State {
         //DONE: PlayerControlsGrid -> Input.hx - reads input, fires events that player and enemy listen for (took_a_step('direction')) 05/20/2015
         //TODO: @later touch/mouse to click on a spot and move multiple tiles.
         if(Luxe.input.inputpressed('up')) {
-            Luxe.events.fire('input_was_pressed', { direction:up });
+            Luxe.events.fire('input_was_pressed', { direction:'up' });
         }
         if(Luxe.input.inputpressed('right')) {
-            Luxe.events.fire('input_was_pressed', { direction:right });
+            Luxe.events.fire('input_was_pressed', { direction:'right' });
         }
         if(Luxe.input.inputpressed('down')) {
-            Luxe.events.fire('input_was_pressed', { direction:down });
+            Luxe.events.fire('input_was_pressed', { direction:'down' });
         }
         if(Luxe.input.inputpressed('left')) {
-            Luxe.events.fire('input_was_pressed', { direction:left });
+            Luxe.events.fire('input_was_pressed', { direction:'left' });
         }
         if(Luxe.input.inputpressed('skip')) {
             Luxe.events.fire('player_moved_or_skipped');

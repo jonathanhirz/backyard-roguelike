@@ -39,7 +39,7 @@ class PlayerBehavior extends Component {
 
         //DONE: on direction check, see if there's an enemy on that tile we want to move to. if there is, run attack function and return (don't move)
         //TODO: attack fires an event, takes hp from enemy hit, kills/removes if necesary
-        trace('entered move');
+        //TODO: clean up this player/direction code, try and make it one function instead of repetition
         switch(data.direction) {
             case 'up':
                 player.rotation_z = 0;
@@ -50,7 +50,7 @@ class PlayerBehavior extends Component {
                     if(tilemap.worldpos_to_map(enemy.pos, 1).x == tilemap.worldpos_to_map(player.pos, 1).x) {
                         if(tilemap.worldpos_to_map(enemy.pos, 1).y == tilemap.worldpos_to_map(player.pos, 1).y - 1) {
                             attack();
-                            trace("killed " + enemy.name);
+                            // trace("killed " + enemy.name);
                             return;
                         }
                     }
@@ -66,7 +66,7 @@ class PlayerBehavior extends Component {
                     if(tilemap.worldpos_to_map(enemy.pos, 1).y == tilemap.worldpos_to_map(player.pos, 1).y) {
                         if(tilemap.worldpos_to_map(enemy.pos, 1).x == tilemap.worldpos_to_map(player.pos, 1).x + 1) {
                             attack();
-                            trace("killed " + enemy.name);
+                            // trace("killed " + enemy.name);
                             return;
                         }
                     }
@@ -82,7 +82,7 @@ class PlayerBehavior extends Component {
                     if(tilemap.worldpos_to_map(enemy.pos, 1).x == tilemap.worldpos_to_map(player.pos, 1).x) {
                         if(tilemap.worldpos_to_map(enemy.pos, 1).y == tilemap.worldpos_to_map(player.pos, 1).y + 1) {
                             attack();
-                            trace("killed " + enemy.name);
+                            // trace("killed " + enemy.name);
                             return;
                         }
                     }
@@ -98,7 +98,7 @@ class PlayerBehavior extends Component {
                     if(tilemap.worldpos_to_map(enemy.pos, 1).y == tilemap.worldpos_to_map(player.pos, 1).y) {
                         if(tilemap.worldpos_to_map(enemy.pos, 1).x == tilemap.worldpos_to_map(player.pos, 1).x - 1) {
                             attack();
-                            trace("killed " + enemy.name);
+                            // trace("killed " + enemy.name);
                             return;
                         }
                     }
