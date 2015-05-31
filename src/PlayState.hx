@@ -14,7 +14,7 @@ import luxe.collision.data.*;
 
 class PlayState extends State {
 
-    var player : Sprite;
+    public static var player : Sprite;
     var player_texture : Texture;
     var child : Sprite;
     var enemy : Sprite;
