@@ -15,6 +15,7 @@ class PlayerBehavior extends Component {
 
     var player : Sprite;
     var tilemap : Tilemap;
+    var enemy_pool : Array<Sprite>;
 
     public function new(_name:String) {
 
@@ -26,6 +27,7 @@ class PlayerBehavior extends Component {
 
         player = cast entity;
         tilemap = cast PlayState.map1;
+        enemy_pool = cast PlayState.enemy_pool;
         Luxe.events.listen('input_was_pressed', move);
 
     } //init
@@ -46,10 +48,10 @@ class PlayerBehavior extends Component {
                 //check for walls
                 if(tilemap.tile_at_pos('ground', new Vector(player.pos.x, player.pos.y - tilemap.tile_height), 1).id <= 16) return;
                 //check for enemies
-                for(enemy in PlayState.enemy_pool) {
+                for(enemy in enemy_pool) {
                     if(tilemap.worldpos_to_map(enemy.pos, 1).x == tilemap.worldpos_to_map(player.pos, 1).x) {
                         if(tilemap.worldpos_to_map(enemy.pos, 1).y == tilemap.worldpos_to_map(player.pos, 1).y - 1) {
-                            attack();
+                            attack(enemy);
                             // trace("killed " + enemy.name);
                             return;
                         }
@@ -62,10 +64,10 @@ class PlayerBehavior extends Component {
                 //check for walls
                 if(tilemap.tile_at_pos('ground', new Vector(player.pos.x + tilemap.tile_width, player.pos.y), 1).id <= 16) return;
                 //check for enemies
-                for(enemy in PlayState.enemy_pool) {
+                for(enemy in enemy_pool) {
                     if(tilemap.worldpos_to_map(enemy.pos, 1).y == tilemap.worldpos_to_map(player.pos, 1).y) {
                         if(tilemap.worldpos_to_map(enemy.pos, 1).x == tilemap.worldpos_to_map(player.pos, 1).x + 1) {
-                            attack();
+                            attack(enemy);
                             // trace("killed " + enemy.name);
                             return;
                         }
@@ -78,10 +80,10 @@ class PlayerBehavior extends Component {
                 //check for walls
                 if(tilemap.tile_at_pos('ground', new Vector(player.pos.x, player.pos.y + tilemap.tile_height), 1).id <= 16) return;
                 //check for enemies
-                for(enemy in PlayState.enemy_pool) {
+                for(enemy in enemy_pool) {
                     if(tilemap.worldpos_to_map(enemy.pos, 1).x == tilemap.worldpos_to_map(player.pos, 1).x) {
                         if(tilemap.worldpos_to_map(enemy.pos, 1).y == tilemap.worldpos_to_map(player.pos, 1).y + 1) {
-                            attack();
+                            attack(enemy);
                             // trace("killed " + enemy.name);
                             return;
                         }
@@ -94,10 +96,10 @@ class PlayerBehavior extends Component {
                 //check for walls
                 if(tilemap.tile_at_pos('ground', new Vector(player.pos.x - tilemap.tile_width, player.pos.y), 1).id <= 16) return;
                 //check for enemies
-                for(enemy in PlayState.enemy_pool) {
+                for(enemy in enemy_pool) {
                     if(tilemap.worldpos_to_map(enemy.pos, 1).y == tilemap.worldpos_to_map(player.pos, 1).y) {
                         if(tilemap.worldpos_to_map(enemy.pos, 1).x == tilemap.worldpos_to_map(player.pos, 1).x - 1) {
-                            attack();
+                            attack(enemy);
                             // trace("killed " + enemy.name);
                             return;
                         }
@@ -109,9 +111,11 @@ class PlayerBehavior extends Component {
 
     } //move
 
-    function attack() {
+    function attack(_enemy:Sprite) {
 
-        trace("ATTACK!");
+        // trace(_enemy.name);
+        enemy_pool.remove(_enemy);
+        _enemy.destroy();
 
     } //attack
 

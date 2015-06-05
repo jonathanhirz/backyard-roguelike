@@ -7,13 +7,15 @@ import CustomDefines;
 
 class Enemy extends Component {
 
-    //TODO: each enemy needs an 'awareness' state: lost/wandering, aware of player and hunting, ready to attach
     //TODO: enemy needs fight action, able to hit player
-    //TODO: enemy needs to check if another enemy is on the tile it wants to move to
+    //TODO: @priority enemy needs to check if another enemy is on the tile it wants to move to
+    //DONE: fix the corner follow issue. enemy should move to line up when dx = dy
     //DONE: @fix movement where player and enemy will land on same tile
+    //DONE: each enemy needs an 'awareness' state: lost/wandering, aware of player and hunting, ready to attack (fixed basic, if >6 spaces away, wander, etc)
 
     var tilemap : Tilemap;
     var player : Sprite;
+    var event_id : String;
 
     public function new(_name:String) {
 
@@ -23,25 +25,33 @@ class Enemy extends Component {
 
     override function init() {
 
-        Luxe.events.listen('player_moved_or_skipped', move);
+        event_id = Luxe.events.listen('player_moved_or_skipped', move);
         tilemap = cast PlayState.map1;
         player = cast PlayState.player;
 
 
     } //init
 
-    override function update(dt:Float) {
+    override function ondestroy() {
+        Luxe.events.unlisten(event_id);
+        tilemap = null;
+        player = null;
+        trace('destroyed ' + entity.name);
+    }
 
+    override function update(dt:Float) {
 
     } //update
 
     //DONE: moves when/after player moves (events?)
     function move(_) {
 
-        var dx = Math.abs(tilemap.worldpos_to_map(entity.pos).x - tilemap.worldpos_to_map(player.pos).x);
-        var dy = Math.abs(tilemap.worldpos_to_map(entity.pos).y - tilemap.worldpos_to_map(player.pos).y);
+        var dx = tilemap.worldpos_to_map(entity.pos).x - tilemap.worldpos_to_map(player.pos).x;
+        var dy = tilemap.worldpos_to_map(entity.pos).y - tilemap.worldpos_to_map(player.pos).y;
+        // trace(dx);
+        // trace(dy);
 
-        if(dx + dy > 6) {
+        if(Math.abs(dx) + Math.abs(dy) > 6) {
             var rand_direction = Luxe.utils.random.int(0,4);
             switch(rand_direction) {
                 case 0: //up
@@ -52,6 +62,56 @@ class Enemy extends Component {
                     step_down();
                 case 3: //left
                     step_left();
+            }
+        } else {
+            //TODO: @later work on enemy thought/movement. feels a little off now. they should know how to chase player
+            //DONE: basic enemy movement/chase
+            if(Math.abs(dx) > Math.abs(dy)) {
+                if(dx > 0) {
+                    step_left();
+                } 
+                if(dx < 0) {
+                    step_right();
+                }
+            }
+            if(Math.abs(dy) > Math.abs(dx)) {
+                if(dy > 0) {
+                    step_up();
+                } 
+                if(dy < 0) {
+                    step_down();
+                }
+            }
+            //solving the corner edge case (enemy is diagonal to player)
+            if(Math.abs(dy) == Math.abs(dx)) {
+                //top left
+                if(dy < 0 && dx < 0) {
+                    switch(Luxe.utils.random.int(0,2)) {
+                        case 0: step_down();
+                        case 1: step_right();
+                    }
+                }
+                //top right
+                if(dy < 0 && dx > 0) {
+                    switch(Luxe.utils.random.int(0,2)) {
+                        case 0: step_left();
+                        case 1: step_down();
+                    }
+                }
+                //bottom right
+                if(dy > 0 && dx > 0) {
+                    switch(Luxe.utils.random.int(0,2)) {
+                        case 0: step_up();
+                        case 1: step_left();
+                    }
+                }
+                //bottom left
+                if(dy > 0 && dx < 0) {
+                    switch(Luxe.utils.random.int(0,2)) {
+                        case 0: step_right();
+                        case 1: step_up();
+                    }
+                }
             }
         }
 
