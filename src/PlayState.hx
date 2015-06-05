@@ -11,6 +11,9 @@ import phoenix.Texture.FilterType;
 import luxe.collision.Collision;
 import luxe.collision.shapes.*;
 import luxe.collision.data.*;
+import luxe.Text;
+import phoenix.Batcher;
+import phoenix.Camera;
 
 class PlayState extends State {
 
@@ -23,11 +26,19 @@ class PlayState extends State {
     public static var block_collider_pool : Array<Shape>;
     public static var enemy_pool : Array<Sprite>;
 
+    public static var life_text : Text;
+    var hud_batcher : Batcher;
+
     public function new(_name:String) {
 
         super({ name:_name });
         block_collider_pool = [];
         enemy_pool = [];
+        hud_batcher = new Batcher(Luxe.renderer, 'hud_batcher');
+        var hud_view = new Camera();
+        hud_batcher.view = hud_view;
+        hud_batcher.layer = 2;
+        Luxe.renderer.add_batch(hud_batcher);
         // connect_input();
 
     } //new
@@ -66,6 +77,12 @@ class PlayState extends State {
         }); //player
         player.add(new PlayerBehavior('player_behavior'));
         player.add(new Collider('player_collider'));
+
+        life_text = new Text({
+            text : 'Life: ' + PlayerBehavior.life_amount,
+            pos : new Vector(0,0),
+            batcher : hud_batcher
+        }); //life_text
 
         child = new Sprite({
             pos : new Vector(player.pos.x + 30, player.pos.y -10),

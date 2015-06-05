@@ -8,13 +8,14 @@ import CustomDefines;
 class Enemy extends Component {
 
     //TODO: enemy needs fight action, able to hit player
-    //TODO: @priority enemy needs to check if another enemy is on the tile it wants to move to
+    //done: @priority enemy needs to check if another enemy is on the tile it wants to move to
     //DONE: fix the corner follow issue. enemy should move to line up when dx = dy
     //DONE: @fix movement where player and enemy will land on same tile
     //DONE: each enemy needs an 'awareness' state: lost/wandering, aware of player and hunting, ready to attack (fixed basic, if >6 spaces away, wander, etc)
 
     var tilemap : Tilemap;
     var player : Sprite;
+    var enemy_pool : Array<Sprite>;
     var event_id : String;
 
     public function new(_name:String) {
@@ -28,6 +29,7 @@ class Enemy extends Component {
         event_id = Luxe.events.listen('player_moved_or_skipped', move);
         tilemap = cast PlayState.map1;
         player = cast PlayState.player;
+        enemy_pool = cast PlayState.enemy_pool;
 
 
     } //init
@@ -120,9 +122,14 @@ class Enemy extends Component {
     function step_up() {
 
         if(tilemap.tile_at_pos('ground', new Vector(entity.pos.x, entity.pos.y - tilemap.tile_height), 1).id <= 16) return;
+        for(enemy in enemy_pool) {
+            if(tilemap.worldpos_to_map(enemy.pos).x == tilemap.worldpos_to_map(entity.pos).x) {
+                if(tilemap.worldpos_to_map(enemy.pos).y == tilemap.worldpos_to_map(entity.pos).y - 1) return;
+            }
+        }
         if(tilemap.worldpos_to_map(entity.pos).x == tilemap.worldpos_to_map(player.pos).x) {
             if(tilemap.worldpos_to_map(entity.pos,1).y - 1 == tilemap.worldpos_to_map(player.pos).y) {
-                trace("enemy attacks!");
+                enemy_attacks();
                 return;
             }
         }
@@ -133,9 +140,14 @@ class Enemy extends Component {
     function step_right() {
 
         if(tilemap.tile_at_pos('ground', new Vector(entity.pos.x + tilemap.tile_width, entity.pos.y), 1).id <= 16) return;
+        for(enemy in enemy_pool) {
+            if(tilemap.worldpos_to_map(enemy.pos).y == tilemap.worldpos_to_map(entity.pos).y) {
+                if(tilemap.worldpos_to_map(enemy.pos).x == tilemap.worldpos_to_map(entity.pos).x + 1) return;
+            }
+        }
         if(tilemap.worldpos_to_map(entity.pos).y == tilemap.worldpos_to_map(player.pos).y) {
             if(tilemap.worldpos_to_map(entity.pos,1).x + 1 == tilemap.worldpos_to_map(player.pos).x) {
-                trace("enemy attacks!");
+                enemy_attacks();
                 return;
             }
         }
@@ -146,9 +158,14 @@ class Enemy extends Component {
     function step_down() {
 
         if(tilemap.tile_at_pos('ground', new Vector(entity.pos.x, entity.pos.y + tilemap.tile_height), 1).id <= 16) return;
+        for(enemy in enemy_pool) {
+            if(tilemap.worldpos_to_map(enemy.pos).x == tilemap.worldpos_to_map(entity.pos).x) {
+                if(tilemap.worldpos_to_map(enemy.pos).y == tilemap.worldpos_to_map(entity.pos).y + 1) return;
+            }
+        }
         if(tilemap.worldpos_to_map(entity.pos).x == tilemap.worldpos_to_map(player.pos).x) {
             if(tilemap.worldpos_to_map(entity.pos,1).y + 1 == tilemap.worldpos_to_map(player.pos).y) {
-                trace("enemy attacks!");
+                enemy_attacks();
                 return;
             }
         }
@@ -159,14 +176,25 @@ class Enemy extends Component {
     function step_left() {
 
         if(tilemap.tile_at_pos('ground', new Vector(entity.pos.x - tilemap.tile_width, entity.pos.y), 1).id <= 16) return;
+        for(enemy in enemy_pool) {
+            if(tilemap.worldpos_to_map(enemy.pos).y == tilemap.worldpos_to_map(entity.pos).y) {
+                if(tilemap.worldpos_to_map(enemy.pos).x == tilemap.worldpos_to_map(entity.pos).x - 1) return;
+            }
+        }
         if(tilemap.worldpos_to_map(entity.pos).y == tilemap.worldpos_to_map(player.pos).y) {
             if(tilemap.worldpos_to_map(entity.pos,1).x - 1 == tilemap.worldpos_to_map(player.pos).x) {
-                trace("enemy attacks!");
+                enemy_attacks();
                 return;
             }
         }
         entity.pos.x -= tilemap.tile_width;
 
     } //step_left
+
+    function enemy_attacks() {
+        trace("enemy attacks!");
+        PlayerBehavior.life_amount--;
+        PlayState.life_text.text = 'Life: ' + PlayerBehavior.life_amount;
+    }
 
 } //Enemy

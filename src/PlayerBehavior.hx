@@ -16,6 +16,7 @@ class PlayerBehavior extends Component {
     var player : Sprite;
     var tilemap : Tilemap;
     var enemy_pool : Array<Sprite>;
+    public static var life_amount : Int = 3;
 
     public function new(_name:String) {
 
