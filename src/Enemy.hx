@@ -7,7 +7,7 @@ import CustomDefines;
 
 class Enemy extends Component {
 
-    //TODO: enemy needs fight action, able to hit player
+    //done: enemy needs fight action, able to hit player
     //done: @priority enemy needs to check if another enemy is on the tile it wants to move to
     //DONE: fix the corner follow issue. enemy should move to line up when dx = dy
     //DONE: @fix movement where player and enemy will land on same tile
@@ -192,6 +192,8 @@ class Enemy extends Component {
     } //step_left
 
     function enemy_attacks() {
+        //todo: knock child out of player's hands
+        Luxe.events.fire('knock_child_out_of_hand');
         trace("enemy attacks!");
         PlayerBehavior.life_amount--;
         PlayState.life_text.text = 'Life: ' + PlayerBehavior.life_amount;

@@ -35,13 +35,15 @@ class PlayerBehavior extends Component {
 
     override function update(dt:Float) {
 
+        //todo: player end of life stuff. GameOverState, reset, etc
+
 
     } //update
 
     function move(data:MoveEvent) {
 
-        //TODO: attack fires an event, takes hp from enemy hit, kills/removes if necesary
-        //TODO: clean up this player/direction code, try and make it one function instead of repetition
+        //done: attack fires an event, takes hp from enemy hit, kills/removes if necesary
+        //TODO: @refactor clean up this player/direction code, try and make it one function instead of repetition
         //DONE: on direction check, see if there's an enemy on that tile we want to move to. if there is, run attack function and return (don't move)
         switch(data.direction) {
             case 'up':
@@ -115,6 +117,8 @@ class PlayerBehavior extends Component {
     function attack(_enemy:Sprite) {
 
         // trace(_enemy.name);
+        //todo: player needs to have some attack disadvantage when holding the child
+        //todo: player needs to be able to safely set child down so he can attack
         enemy_pool.remove(_enemy);
         _enemy.destroy();
 
