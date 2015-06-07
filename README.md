@@ -21,3 +21,4 @@ upgradeable apron/armor
 //todo: tasks in backyard - find baby and return to stroller
 //todo: tasks in backyard - find bbq and flip the burger
 //todo: @later random level generation
+//todo: @later fog of war

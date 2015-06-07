@@ -52,11 +52,11 @@ class PlayState extends State {
         connect_input();
         // Luxe.showConsole(true);
 
-        var tilemap = Luxe.resources.text('assets/tilemap.tmx');
+        var tilemap = Luxe.resources.text('assets/tilemap.json');
 
         map1 =  new TiledMap({ 
             tiled_file_data : tilemap.asset.text,
-            format : 'tmx',
+            format : 'json',
             pos : new Vector(0,0)
         }); //map1
 
