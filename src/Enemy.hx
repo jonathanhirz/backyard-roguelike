@@ -192,7 +192,7 @@ class Enemy extends Component {
     } //step_left
 
     function enemy_attacks() {
-        //todo: knock child out of player's hands
+        //done: knock child out of player's hands
         Luxe.events.fire('knock_child_out_of_hand');
         trace("enemy attacks!");
         PlayerBehavior.life_amount--;
