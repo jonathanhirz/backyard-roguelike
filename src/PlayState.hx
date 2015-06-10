@@ -31,6 +31,10 @@ class PlayState extends State {
     public static var life_text : Text;
     var hud_batcher : Batcher;
 
+    var next_step : Float = 0;
+    var step_rate : Float = 0.2;
+    var input_is_down : Bool = false;
+
     public function new(_name:String) {
 
         super({ name:_name });
@@ -120,22 +124,38 @@ class PlayState extends State {
         }
 
         //DONE: fix movement. arrows move one space at a time. no holding movement. 05/20/2015
+        //todo: @later revisiting hold movement controls, but hitting two inputs is...weird. revisit.
         //DONE: PlayerControlsGrid -> Input.hx - reads input, fires events that player and enemy listen for (took_a_step('direction')) 05/20/2015
         //TODO: @later touch/mouse to click on a spot and move multiple tiles.
-        if(Luxe.input.inputpressed('up')) {
-            Luxe.events.fire('input_was_pressed', { direction:'up' });
-        }
-        if(Luxe.input.inputpressed('right')) {
-            Luxe.events.fire('input_was_pressed', { direction:'right' });
-        }
-        if(Luxe.input.inputpressed('down')) {
-            Luxe.events.fire('input_was_pressed', { direction:'down' });
-        }
-        if(Luxe.input.inputpressed('left')) {
-            Luxe.events.fire('input_was_pressed', { direction:'left' });
-        }
-        if(Luxe.input.inputpressed('skip')) {
-            Luxe.events.fire('player_moved_or_skipped');
+        if(Luxe.input.inputdown('up')) {
+            if(Luxe.time > next_step){
+                Luxe.events.fire('input_was_pressed', { direction:'up' });
+                next_step = Luxe.time + step_rate;
+            }
+        } else 
+        if(Luxe.input.inputdown('right')) {
+            if(Luxe.time > next_step){
+                Luxe.events.fire('input_was_pressed', { direction:'right' });
+                next_step = Luxe.time + step_rate;
+            }
+        } else
+        if(Luxe.input.inputdown('down')) {
+            if(Luxe.time > next_step){
+                Luxe.events.fire('input_was_pressed', { direction:'down' });
+                next_step = Luxe.time + step_rate;
+            }
+        } else
+        if(Luxe.input.inputdown('left')) {
+            if(Luxe.time > next_step){
+                Luxe.events.fire('input_was_pressed', { direction:'left' });
+                next_step = Luxe.time + step_rate;
+            }
+        } else
+        if(Luxe.input.inputdown('skip')) {
+            if(Luxe.time > next_step){
+                Luxe.events.fire('player_moved_or_skipped');
+                next_step = Luxe.time + step_rate;
+            }
         }
 
     } //update
