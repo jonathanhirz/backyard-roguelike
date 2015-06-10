@@ -1,3 +1,5 @@
+import pmi.PyxelMapImporter;
+import pmi.LuxeHelper;
 import luxe.States;
 import luxe.Sprite;
 import luxe.Vector;
@@ -22,7 +24,7 @@ class PlayState extends State {
     var child : Sprite;
     var enemy : Sprite;
     var enemy_texture : Texture;
-    public static var map1 : TiledMap;
+    public static var map1 : Tilemap;
     public static var block_collider_pool : Array<Shape>;
     public static var enemy_pool : Array<Sprite>;
 
@@ -52,28 +54,21 @@ class PlayState extends State {
         connect_input();
         // Luxe.showConsole(true);
 
-        var tilemap = Luxe.resources.text('assets/tilemap.json');
-
-        map1 =  new TiledMap({ 
-            tiled_file_data : tilemap.asset.text,
-            format : 'json',
-            pos : new Vector(0,0)
-        }); //map1
-
-        map1.display({
-            scale : 1,
-            depth : 0,
-            grid : false,
-            filter : FilterType.nearest
-        });
-
+        // var tilemap = Luxe.resources.text('assets/tilemap.tmx');
+        var tilemap_xml = new PyxelMapImporter(Luxe.resources.text('assets/tilemap_backyard.xml').asset.text);
+        map1 = LuxeHelper.getTilemap('assets/tileset_backyard.png');
+        var ground = tilemap_xml.getDatasFromLayer('ground');
+        var obstacles = tilemap_xml.getDatasFromLayer('obstacles');
+        LuxeHelper.fillLayer(map1, ground);
+        LuxeHelper.fillLayer(map1, obstacles);
+        map1.display({});
 
         if(player_texture == null) player_texture = Luxe.resources.texture('assets/player.png');
         player = new Sprite({
             name : 'player',
             depth : 1,
             texture : player_texture,
-            pos : map1.tile_pos('ground', 1, 5).add_xyz(map1.tile_width/2, map1.tile_height/2)
+            pos : map1.tile_pos('ground', 1, 1).add_xyz(map1.tile_width/2, map1.tile_height/2)
         }); //player
         player.add(new PlayerBehavior('player_behavior'));
         player.add(new Collider('player_collider'));

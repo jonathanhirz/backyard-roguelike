@@ -50,6 +50,7 @@ class PlayerBehavior extends Component {
                 player.rotation_z = 0;
                 //check for walls
                 if(tilemap.tile_at_pos('ground', new Vector(player.pos.x, player.pos.y - tilemap.tile_height), 1).id <= 16) return;
+                if(tilemap.tile_at_pos('obstacles', new Vector(player.pos.x, player.pos.y - tilemap.tile_height), 1).id != 0) return;
                 //check for enemies
                 for(enemy in enemy_pool) {
                     if(tilemap.worldpos_to_map(enemy.pos, 1).x == tilemap.worldpos_to_map(player.pos, 1).x) {
@@ -66,6 +67,7 @@ class PlayerBehavior extends Component {
                 player.rotation_z = 90;
                 //check for walls
                 if(tilemap.tile_at_pos('ground', new Vector(player.pos.x + tilemap.tile_width, player.pos.y), 1).id <= 16) return;
+                if(tilemap.tile_at_pos('obstacles', new Vector(player.pos.x + tilemap.tile_width, player.pos.y), 1).id != 0) return;
                 //check for enemies
                 for(enemy in enemy_pool) {
                     if(tilemap.worldpos_to_map(enemy.pos, 1).y == tilemap.worldpos_to_map(player.pos, 1).y) {
@@ -82,6 +84,7 @@ class PlayerBehavior extends Component {
                 player.rotation_z = 180;
                 //check for walls
                 if(tilemap.tile_at_pos('ground', new Vector(player.pos.x, player.pos.y + tilemap.tile_height), 1).id <= 16) return;
+                if(tilemap.tile_at_pos('obstacles', new Vector(player.pos.x, player.pos.y + tilemap.tile_height), 1).id != 0) return;
                 //check for enemies
                 for(enemy in enemy_pool) {
                     if(tilemap.worldpos_to_map(enemy.pos, 1).x == tilemap.worldpos_to_map(player.pos, 1).x) {
@@ -98,6 +101,7 @@ class PlayerBehavior extends Component {
                 player.rotation_z = 270;
                 //check for walls
                 if(tilemap.tile_at_pos('ground', new Vector(player.pos.x - tilemap.tile_width, player.pos.y), 1).id <= 16) return;
+                if(tilemap.tile_at_pos('obstacles', new Vector(player.pos.x - tilemap.tile_width, player.pos.y), 1).id != 0) return;
                 //check for enemies
                 for(enemy in enemy_pool) {
                     if(tilemap.worldpos_to_map(enemy.pos, 1).y == tilemap.worldpos_to_map(player.pos, 1).y) {
