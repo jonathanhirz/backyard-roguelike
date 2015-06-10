@@ -5,10 +5,6 @@ import luxe.Events;
 import luxe.tilemaps.Tilemap;
 import CustomDefines;
 
-// typedef MoveEvent = {
-//     direction : String
-// }
-
 //DONE: new class - PlayerAction - listens for event, looks at tile in direction, decides action (walk, block, fight, etc)
 
 class PlayerBehavior extends Component {
