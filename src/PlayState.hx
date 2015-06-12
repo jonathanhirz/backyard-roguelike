@@ -84,7 +84,7 @@ class PlayState extends State {
         }); //life_text
 
         child = new Sprite({
-            pos : new Vector(player.pos.x + 30, player.pos.y -10),
+            pos : new Vector(player.pos.x, player.pos.y),
             size : new Vector(15,25),
             color : new Color().rgb(0x675fd5),
             depth : 2
@@ -100,8 +100,9 @@ class PlayState extends State {
                 name_unique : true,
                 depth : 1,
                 texture : enemy_texture,
-                //TODO: check position where enemy will be placed, make sure it's valid. check tile_at_pos for valid floor tile, make sure not on player/other enemy
-                pos : map1.tile_pos('ground', Luxe.utils.random.int(1,20), Luxe.utils.random.int(1,20)).add_xyz(map1.tile_width/2, map1.tile_height/2)
+                // pos : map1.tile_pos('ground', Luxe.utils.random.int(1,20), Luxe.utils.random.int(1,20)).add_xyz(map1.tile_width/2, map1.tile_height/2)
+                // pos : map1.tile_pos('ground',2,1).add_xyz(map1.tile_width/2, map1.tile_height/2)
+                pos : get_enemy_position()
             }); //enemy
             enemy.add(new Enemy('enemy'));
             enemy_pool.push(enemy);
@@ -175,6 +176,11 @@ class PlayState extends State {
         Luxe.input.bind_key('toggle_held', Key.enter);
 
     } //connect_input
+
+    //TODO: check position where enemy will be placed, make sure it's valid. check tile_at_pos for valid floor tile, make sure not on player/other enemy
+    function get_enemy_position() {
+        return map1.tile_pos('ground',2,1).add_xyz(map1.tile_width/2, map1.tile_height/2);
+    }
 
 
 } //PlayState
