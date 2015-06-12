@@ -22,3 +22,4 @@ upgradeable apron/armor
 //todo: tasks in backyard - find bbq and flip the burger
 //todo: @later random level generation
 //todo: @later fog of war
+//todo: finish setting up windows virtualbox for compiling win builds. nothing else.

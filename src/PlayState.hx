@@ -32,8 +32,7 @@ class PlayState extends State {
     var hud_batcher : Batcher;
 
     var next_step : Float = 0;
-    var step_rate : Float = 0.2;
-    var input_is_down : Bool = false;
+    var step_rate : Float = 0.17;
 
     public function new(_name:String) {
 
@@ -179,7 +178,7 @@ class PlayState extends State {
 
     //TODO: check position where enemy will be placed, make sure it's valid. check tile_at_pos for valid floor tile, make sure not on player/other enemy
     function get_enemy_position() {
-        return map1.tile_pos('ground',2,1).add_xyz(map1.tile_width/2, map1.tile_height/2);
+        return map1.tile_pos('ground',Luxe.utils.random.int(1,20),Luxe.utils.random.int(1,20)).add_xyz(map1.tile_width/2, map1.tile_height/2);
     }
 
 
