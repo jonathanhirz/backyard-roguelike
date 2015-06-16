@@ -23,3 +23,9 @@ upgradeable apron/armor
 //todo: @later random level generation
 //todo: @later fog of war
 //todo: finish setting up windows virtualbox for compiling win builds. nothing else.
+
+//todo: the plan to finish @FINISH
+-make a simple menu. show the tilemap, a title, and some text explaining what to do. simple.
+-when starting game, draw player/child and enemies, do the camera focus thing
+-all player has to do is touch the gate with child in hand. enemies don't hurt child
+-make a game over state if the player's life hits 0. restart

@@ -30,6 +30,7 @@ class PlayState extends State {
 
     public static var life_text : Text;
     var hud_batcher : Batcher;
+    var life_text_shader : phoenix.Shader;
 
     var next_step : Float = 0;
     var step_rate : Float = 0.17;
@@ -44,6 +45,7 @@ class PlayState extends State {
         hud_batcher.view = hud_view;
         hud_batcher.layer = 2;
         Luxe.renderer.add_batch(hud_batcher);
+        life_text_shader = Luxe.renderer.shaders.bitmapfont.shader.clone('title-shader');
         // connect_input();
 
     } //new
@@ -79,6 +81,10 @@ class PlayState extends State {
         life_text = new Text({
             text : 'Life: ' + PlayerBehavior.life_amount,
             pos : new Vector(0,0),
+            sdf : true,
+            shader : life_text_shader,
+            outline : 0.75,
+            outline_color : new Color().rgb(0x000000),
             batcher : hud_batcher
         }); //life_text
 
