@@ -122,6 +122,7 @@ class Enemy extends Component {
     function step_up() {
 
         if(tilemap.tile_at_pos('ground', new Vector(entity.pos.x, entity.pos.y - tilemap.tile_height), 1).id <= 16) return;
+        if(tilemap.tile_at_pos('obstacles', new Vector(entity.pos.x, entity.pos.y - tilemap.tile_height), 1).id != 0) return;
         for(enemy in enemy_pool) {
             if(tilemap.worldpos_to_map(enemy.pos).x == tilemap.worldpos_to_map(entity.pos).x) {
                 if(tilemap.worldpos_to_map(enemy.pos).y == tilemap.worldpos_to_map(entity.pos).y - 1) return;
@@ -140,6 +141,7 @@ class Enemy extends Component {
     function step_right() {
 
         if(tilemap.tile_at_pos('ground', new Vector(entity.pos.x + tilemap.tile_width, entity.pos.y), 1).id <= 16) return;
+        if(tilemap.tile_at_pos('obstacles', new Vector(entity.pos.x + tilemap.tile_width, entity.pos.y), 1).id != 0) return;
         for(enemy in enemy_pool) {
             if(tilemap.worldpos_to_map(enemy.pos).y == tilemap.worldpos_to_map(entity.pos).y) {
                 if(tilemap.worldpos_to_map(enemy.pos).x == tilemap.worldpos_to_map(entity.pos).x + 1) return;
@@ -158,6 +160,7 @@ class Enemy extends Component {
     function step_down() {
 
         if(tilemap.tile_at_pos('ground', new Vector(entity.pos.x, entity.pos.y + tilemap.tile_height), 1).id <= 16) return;
+        if(tilemap.tile_at_pos('obstacles', new Vector(entity.pos.x, entity.pos.y + tilemap.tile_height), 1).id != 0) return;
         for(enemy in enemy_pool) {
             if(tilemap.worldpos_to_map(enemy.pos).x == tilemap.worldpos_to_map(entity.pos).x) {
                 if(tilemap.worldpos_to_map(enemy.pos).y == tilemap.worldpos_to_map(entity.pos).y + 1) return;
@@ -176,6 +179,7 @@ class Enemy extends Component {
     function step_left() {
 
         if(tilemap.tile_at_pos('ground', new Vector(entity.pos.x - tilemap.tile_width, entity.pos.y), 1).id <= 16) return;
+        if(tilemap.tile_at_pos('obstacles', new Vector(entity.pos.x - tilemap.tile_width, entity.pos.y), 1).id != 0) return;
         for(enemy in enemy_pool) {
             if(tilemap.worldpos_to_map(enemy.pos).y == tilemap.worldpos_to_map(entity.pos).y) {
                 if(tilemap.worldpos_to_map(enemy.pos).x == tilemap.worldpos_to_map(entity.pos).x - 1) return;
