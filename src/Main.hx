@@ -3,7 +3,6 @@ import luxe.Sprite;
 import luxe.Color;
 import luxe.Vector;
 import luxe.States;
-import luxe.tween.Actuate;
 
 class Main extends luxe.Game {
 
@@ -26,9 +25,10 @@ class Main extends luxe.Game {
         machine = new States({ name:'statemachine' });
         machine.add(new MenuState('menu_state'));
         machine.add(new PlayState('play_state'));
-        machine.set('play_state');
+        machine.add(new GameOverState('gameover_state'));
+        machine.set('menu_state');
+
         Luxe.camera.zoom = 0.5;
-        Actuate.tween(Luxe.camera, 0.5, { zoom:1 });
 
     } //ready
 

@@ -16,6 +16,7 @@ import luxe.collision.data.*;
 import luxe.Text;
 import phoenix.Batcher;
 import phoenix.Camera;
+import luxe.tween.Actuate;
 
 class PlayState extends State {
 
@@ -56,8 +57,9 @@ class PlayState extends State {
 
     override function onenter<T>(_value:T) {
 
-        connect_input();
         // Luxe.showConsole(true);
+
+        Actuate.tween(Luxe.camera, 1.5, { zoom:1 });
 
         // var tilemap = Luxe.resources.text('assets/tilemap.tmx');
         var tilemap_xml = new PyxelMapImporter(Luxe.resources.text('assets/tilemap_backyard.xml').asset.text);
@@ -117,6 +119,10 @@ class PlayState extends State {
 
     override function onleave<T>(_value:T) {
 
+        //zoom camera back out to 0.5
+        //destroy ui/player/child/all enemies (explosion would be cool but do it @later)
+        //tilemap stays
+
 
     } //onleave
 
@@ -165,22 +171,6 @@ class PlayState extends State {
         }
 
     } //update
-
-    function connect_input() {
-
-        Luxe.input.bind_key('up', Key.up);
-        Luxe.input.bind_key('up', Key.key_w);
-        Luxe.input.bind_key('right', Key.right);
-        Luxe.input.bind_key('right', Key.key_d);
-        Luxe.input.bind_key('down', Key.down);
-        Luxe.input.bind_key('down', Key.key_s);
-        Luxe.input.bind_key('left', Key.left);
-        Luxe.input.bind_key('left', Key.key_a);
-        Luxe.input.bind_key('skip', Key.space);
-        Luxe.input.bind_key('toggle_collider', Key.key_t);
-        Luxe.input.bind_key('toggle_held', Key.enter);
-
-    } //connect_input
 
     //TODO: check position where enemy will be placed, make sure it's valid. check tile_at_pos for valid floor tile, make sure not on player/other enemy
     function get_enemy_position() {
