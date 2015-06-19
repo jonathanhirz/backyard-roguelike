@@ -14,7 +14,9 @@ class Main extends luxe.Game {
         config.preload.textures.push({ id:'assets/enemy.png' });
         config.preload.textures.push({ id:'assets/tileset_backyard.png' });
 
-        config.preload.texts.push({ id:'assets/tilemap_backyard.xml' });
+        config.preload.texts.push({ id:'assets/tilemap_1_backyard.xml' });
+        config.preload.texts.push({ id:'assets/tilemap_2_backyard.xml' });
+        config.preload.texts.push({ id:'assets/tilemap_3_backyard.xml' });
 
         return config;
 

@@ -24,7 +24,7 @@ class PlayerBehavior extends Component {
     override function init() {
 
         player = cast entity;
-        tilemap = cast PlayState.map1;
+        tilemap = cast PlayState.current_map;
         enemy_pool = cast PlayState.enemy_pool;
         event_id = Luxe.events.listen('input_was_pressed', move);
 

@@ -3,7 +3,7 @@
     window: {
       width:960,
       height:640,
-      title:'fathersdayjam',
+      title:'BYRL',
       fullscreen:false,
       resizable:true,
       if : {
@@ -18,13 +18,13 @@
   },
 
   project : {
-    name : 'fathersdayjam',
+    name : 'BYRL',
     version : '0.0.1',
     author : 'Jonathan Hirz',
 
     app : {
-      name : 'fathersdayjam',
-      package : 'com.jonathanhirz.fathersdayjam'
+      name : 'BYRL',
+      package : 'com.jonathanhirz.BYRL'
     },
 
     build : {

@@ -26,6 +26,9 @@ class PlayState extends State {
     var enemy : Sprite;
     var enemy_texture : Texture;
     public static var map1 : Tilemap;
+    public static var map2 : Tilemap;
+    public static var map3 : Tilemap;
+    public static var current_map : Tilemap;
     public static var block_collider_pool : Array<Shape>;
     public static var enemy_pool : Array<Sprite>;
 
@@ -53,6 +56,33 @@ class PlayState extends State {
         Luxe.renderer.add_batch(hud_batcher);
         life_text_shader = Luxe.renderer.shaders.bitmapfont.shader.clone('title-shader');
 
+        if(map1 == null) {
+            var tilemap_1_xml = new PyxelMapImporter(Luxe.resources.text('assets/tilemap_1_backyard.xml').asset.text);
+            map1 = LuxeHelper.getTilemap('assets/tileset_backyard.png');
+            var ground1 = tilemap_1_xml.getDatasFromLayer('ground');
+            var obstacles1 = tilemap_1_xml.getDatasFromLayer('obstacles');
+            LuxeHelper.fillLayer(map1, ground1);
+            LuxeHelper.fillLayer(map1, obstacles1);
+        }
+
+        if(map2 == null) {
+            var tilemap_2_xml = new PyxelMapImporter(Luxe.resources.text('assets/tilemap_2_backyard.xml').asset.text);
+            map2 = LuxeHelper.getTilemap('assets/tileset_backyard.png');
+            var ground2 = tilemap_2_xml.getDatasFromLayer('ground');
+            var obstacles2 = tilemap_2_xml.getDatasFromLayer('obstacles');
+            LuxeHelper.fillLayer(map2, ground2);
+            LuxeHelper.fillLayer(map2, obstacles2);
+        }
+
+        if(map3 == null) {
+            var tilemap_3_xml = new PyxelMapImporter(Luxe.resources.text('assets/tilemap_3_backyard.xml').asset.text);
+            map3 = LuxeHelper.getTilemap('assets/tileset_backyard.png');
+            var ground3 = tilemap_3_xml.getDatasFromLayer('ground');
+            var obstacles3 = tilemap_3_xml.getDatasFromLayer('obstacles');
+            LuxeHelper.fillLayer(map3, ground3);
+            LuxeHelper.fillLayer(map3, obstacles3);
+        }
+
     } //init
 
     override function onenter<T>(_value:T) {
@@ -64,14 +94,21 @@ class PlayState extends State {
         Actuate.tween(Luxe.camera, 1.5, { zoom:1 });
 
         // var tilemap = Luxe.resources.text('assets/tilemap.tmx');
-        if(map1 == null) {
-            var tilemap_xml = new PyxelMapImporter(Luxe.resources.text('assets/tilemap_backyard.xml').asset.text);
-            map1 = LuxeHelper.getTilemap('assets/tileset_backyard.png');
-            var ground = tilemap_xml.getDatasFromLayer('ground');
-            var obstacles = tilemap_xml.getDatasFromLayer('obstacles');
-            LuxeHelper.fillLayer(map1, ground);
-            LuxeHelper.fillLayer(map1, obstacles);
-            map1.display({});
+        
+        var random_map = Luxe.utils.random.int(0,3);
+        switch(random_map) {
+            case 0: {
+                map1.display({});
+                current_map = map1;
+            }
+            case 1: {
+                map2.display({});
+                current_map = map2;
+            }
+            case 2: {
+                map3.display({});
+                current_map = map3;
+            }
         }
 
         if(player_texture == null) player_texture = Luxe.resources.texture('assets/player.png');

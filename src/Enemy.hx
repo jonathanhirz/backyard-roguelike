@@ -27,7 +27,7 @@ class Enemy extends Component {
     override function init() {
 
         event_id = Luxe.events.listen('player_moved_or_skipped', move);
-        tilemap = cast PlayState.map1;
+        tilemap = cast PlayState.current_map;
         player = cast PlayState.player;
         enemy_pool = cast PlayState.enemy_pool;
 
