@@ -22,7 +22,7 @@ class PlayState extends State {
 
     public static var player : Sprite;
     var player_texture : Texture;
-    var child : Sprite;
+    public static var child : Sprite;
     var enemy : Sprite;
     var enemy_texture : Texture;
     public static var map1 : Tilemap;
@@ -39,36 +39,40 @@ class PlayState extends State {
     public function new(_name:String) {
 
         super({ name:_name });
+
+    } //new
+
+    override function init() {
+
         block_collider_pool = [];
-        enemy_pool = [];
+        
         hud_batcher = new Batcher(Luxe.renderer, 'hud_batcher');
         var hud_view = new Camera();
         hud_batcher.view = hud_view;
         hud_batcher.layer = 2;
         Luxe.renderer.add_batch(hud_batcher);
         life_text_shader = Luxe.renderer.shaders.bitmapfont.shader.clone('title-shader');
-        // connect_input();
-
-    } //new
-
-    override function init() {
 
     } //init
 
     override function onenter<T>(_value:T) {
+
+        if(enemy_pool == null) enemy_pool = [];
 
         // Luxe.showConsole(true);
 
         Actuate.tween(Luxe.camera, 1.5, { zoom:1 });
 
         // var tilemap = Luxe.resources.text('assets/tilemap.tmx');
-        var tilemap_xml = new PyxelMapImporter(Luxe.resources.text('assets/tilemap_backyard.xml').asset.text);
-        map1 = LuxeHelper.getTilemap('assets/tileset_backyard.png');
-        var ground = tilemap_xml.getDatasFromLayer('ground');
-        var obstacles = tilemap_xml.getDatasFromLayer('obstacles');
-        LuxeHelper.fillLayer(map1, ground);
-        LuxeHelper.fillLayer(map1, obstacles);
-        map1.display({});
+        if(map1 == null) {
+            var tilemap_xml = new PyxelMapImporter(Luxe.resources.text('assets/tilemap_backyard.xml').asset.text);
+            map1 = LuxeHelper.getTilemap('assets/tileset_backyard.png');
+            var ground = tilemap_xml.getDatasFromLayer('ground');
+            var obstacles = tilemap_xml.getDatasFromLayer('obstacles');
+            LuxeHelper.fillLayer(map1, ground);
+            LuxeHelper.fillLayer(map1, obstacles);
+            map1.display({});
+        }
 
         if(player_texture == null) player_texture = Luxe.resources.texture('assets/player.png');
         player = new Sprite({
@@ -119,7 +123,15 @@ class PlayState extends State {
 
     override function onleave<T>(_value:T) {
 
-        //zoom camera back out to 0.5
+        Actuate.tween(Luxe.camera, 1.5, { zoom:0.5 });
+        player.destroy();
+        life_text.destroy();
+        child.destroy();
+        for(dead_enemy in enemy_pool) {
+            dead_enemy.destroy();
+            // enemy_pool.remove(dead_enemy);
+        }
+        enemy_pool = null;
         //destroy ui/player/child/all enemies (explosion would be cool but do it @later)
         //tilemap stays
 

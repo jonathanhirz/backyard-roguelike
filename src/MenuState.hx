@@ -15,6 +15,15 @@ class MenuState extends State {
 
         super({ name:_name });
 
+    } //new
+
+    override function init() {
+
+
+    } //init
+
+    override function onenter<T>(_value:T) {
+
         title_shader = Luxe.renderer.shaders.bitmapfont.shader.clone('title_shader');
         title = new Text({
             text : 'BYRL',
@@ -39,23 +48,11 @@ class MenuState extends State {
         });
 
         instructions = new Text({
-            text : 'Carry your child to the gate. \nArrow keys or WASD to move&attack, SPACE to wait. \n \nPress SPACE to start.',
+            text : 'Carry your child to the gate. \nEnemies will knock your child out of your hands and hurt you. \n \nArrow keys or WASD to move & attack, SPACE to wait. \n \nPress any key to start.',
             pos : Luxe.screen.mid,
             align : center,
             point_size : 50
         });
-
-    } //new
-
-    override function init() {
-
-
-    } //init
-
-    override function onenter<T>(_value:T) {
-
-        connect_input();
-
 
     } //onenter
 
@@ -65,30 +62,10 @@ class MenuState extends State {
         subtitle.destroy();
         instructions.destroy();
 
-
     } //onleave
 
-    override function update(dt:Float) {
-        if(Luxe.input.inputpressed('skip')) {
-            machine.set('play_state');
-        }
+    override function onkeyup(e:KeyEvent) {
+        machine.set('play_state');
     }
-
-    function connect_input() {
-
-        Luxe.input.bind_key('up', Key.up);
-        Luxe.input.bind_key('up', Key.key_w);
-        Luxe.input.bind_key('right', Key.right);
-        Luxe.input.bind_key('right', Key.key_d);
-        Luxe.input.bind_key('down', Key.down);
-        Luxe.input.bind_key('down', Key.key_s);
-        Luxe.input.bind_key('left', Key.left);
-        Luxe.input.bind_key('left', Key.key_a);
-        Luxe.input.bind_key('skip', Key.space);
-        Luxe.input.bind_key('toggle_collider', Key.key_t);
-        Luxe.input.bind_key('toggle_held', Key.enter);
-
-    } //connect_input
-
 
 } //MenuState

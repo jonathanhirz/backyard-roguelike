@@ -38,6 +38,7 @@ class Enemy extends Component {
         Luxe.events.unlisten(event_id);
         tilemap = null;
         player = null;
+        event_id = null;
         trace('destroyed ' + entity.name);
     }
 

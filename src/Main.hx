@@ -6,7 +6,7 @@ import luxe.States;
 
 class Main extends luxe.Game {
 
-    var machine : States;
+    public static var machine : States;
 
     override function config( config:luxe.AppConfig ) {
 
@@ -22,11 +22,15 @@ class Main extends luxe.Game {
 
     override function ready() {
 
+        connect_input();
         machine = new States({ name:'statemachine' });
         machine.add(new MenuState('menu_state'));
         machine.add(new PlayState('play_state'));
-        machine.add(new GameOverState('gameover_state'));
-        machine.set('menu_state');
+        machine.add(new GameOverState('gameover_state', 1));
+        // machine.set('play_state');
+        Luxe.on(init, function(_) {
+            machine.set('menu_state');
+            });
 
         Luxe.camera.zoom = 0.5;
 
@@ -44,5 +48,21 @@ class Main extends luxe.Game {
 
 
     } //update
+
+    function connect_input() {
+
+        Luxe.input.bind_key('up', Key.up);
+        Luxe.input.bind_key('up', Key.key_w);
+        Luxe.input.bind_key('right', Key.right);
+        Luxe.input.bind_key('right', Key.key_d);
+        Luxe.input.bind_key('down', Key.down);
+        Luxe.input.bind_key('down', Key.key_s);
+        Luxe.input.bind_key('left', Key.left);
+        Luxe.input.bind_key('left', Key.key_a);
+        Luxe.input.bind_key('skip', Key.space);
+        Luxe.input.bind_key('toggle_collider', Key.key_t);
+        Luxe.input.bind_key('toggle_held', Key.enter);
+
+    } //connect_input
 
 } //Main
