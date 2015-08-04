@@ -1,6 +1,8 @@
 #father's day jam - for nathan =]
 started 05/05/2015
 
+REQUIRED LIB - pmi [PyxelEdit-Map-Importer](https://github.com/Dvergar/PyxelEdit-Map-Importer)
+
 ALT-T for TODOreview!
 
 ### ideas/concepts
