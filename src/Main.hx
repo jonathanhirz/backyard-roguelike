@@ -3,12 +3,13 @@ import luxe.Sprite;
 import luxe.Color;
 import luxe.Vector;
 import luxe.States;
+import luxe.GameConfig;
 
 class Main extends luxe.Game {
 
     public static var machine : States;
 
-    override function config( config:luxe.AppConfig ) {
+    override function config( config:luxe.GameConfig ) {
 
         config.preload.textures.push({ id:'assets/player.png' });
         config.preload.textures.push({ id:'assets/enemy.png' });

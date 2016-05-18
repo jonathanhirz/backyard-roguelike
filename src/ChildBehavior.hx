@@ -68,8 +68,8 @@ class ChildBehavior extends Component {
         //     new_child_position();
         //     trace('hit a void');
         // }
-        if(tilemap.tile_at_pos('ground', new Vector(new_position.x, new_position.y), 1).id <= 16 ||
-            tilemap.tile_at_pos('obstacles', new Vector(new_position.x, new_position.y), 1).id != 0) {
+        if(tilemap.tile_at_pos('ground', new_position.x, new_position.y, 1).id <= 16 ||
+            tilemap.tile_at_pos('obstacles', new_position.x, new_position.y, 1).id != 0) {
             new_child_position();
         } else {
             child.pos = new_position;

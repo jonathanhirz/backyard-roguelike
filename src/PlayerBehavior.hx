@@ -58,12 +58,12 @@ class PlayerBehavior extends Component {
             case 'up':
                 player.rotation_z = 0;
                 //check for walls
-                if(tilemap.tile_at_pos('ground', new Vector(player.pos.x, player.pos.y - tilemap.tile_height), 1).id <= 16) return;
-                if(tilemap.tile_at_pos('obstacles', new Vector(player.pos.x, player.pos.y - tilemap.tile_height), 1).id != 0) return;
+                if(tilemap.tile_at_pos('ground', player.pos.x, player.pos.y - tilemap.tile_height, 1).id <= 16) return;
+                if(tilemap.tile_at_pos('obstacles', player.pos.x, player.pos.y - tilemap.tile_height, 1).id != 0) return;
                 //check for enemies
                 for(enemy in enemy_pool) {
-                    if(tilemap.worldpos_to_map(enemy.pos, 1).x == tilemap.worldpos_to_map(player.pos, 1).x) {
-                        if(tilemap.worldpos_to_map(enemy.pos, 1).y == tilemap.worldpos_to_map(player.pos, 1).y - 1) {
+                    if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y, 1).x == tilemap.tile_coord(player.pos.x, player.pos.y, 1).x) {
+                        if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y, 1).y == tilemap.tile_coord(player.pos.x, player.pos.y, 1).y - 1) {
                             attack(enemy);
                             // trace("killed " + enemy.name);
                             return;
@@ -75,16 +75,16 @@ class PlayerBehavior extends Component {
             case 'right':
                 player.rotation_z = 90;
                 //check for walls
-                if(tilemap.tile_at_pos('ground', new Vector(player.pos.x + tilemap.tile_width, player.pos.y), 1).id == 3 && PlayState.child.get('child_behavior').is_held) { 
+                if(tilemap.tile_at_pos('ground', player.pos.x + tilemap.tile_width, player.pos.y, 1).id == 3 && PlayState.child.get('child_behavior').is_held) { 
                     Main.machine.set('gameover_state', 1);
                     return;
                 }
-                if(tilemap.tile_at_pos('ground', new Vector(player.pos.x + tilemap.tile_width, player.pos.y), 1).id <= 16) return;
-                if(tilemap.tile_at_pos('obstacles', new Vector(player.pos.x + tilemap.tile_width, player.pos.y), 1).id != 0) return;
+                if(tilemap.tile_at_pos('ground', player.pos.x + tilemap.tile_width, player.pos.y, 1).id <= 16) return;
+                if(tilemap.tile_at_pos('obstacles', player.pos.x + tilemap.tile_width, player.pos.y, 1).id != 0) return;
                 //check for enemies
                 for(enemy in enemy_pool) {
-                    if(tilemap.worldpos_to_map(enemy.pos, 1).y == tilemap.worldpos_to_map(player.pos, 1).y) {
-                        if(tilemap.worldpos_to_map(enemy.pos, 1).x == tilemap.worldpos_to_map(player.pos, 1).x + 1) {
+                    if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y, 1).y == tilemap.tile_coord(player.pos.x, player.pos.y, 1).y) {
+                        if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y, 1).x == tilemap.tile_coord(player.pos.x, player.pos.y, 1).x + 1) {
                             attack(enemy);
                             // trace("killed " + enemy.name);
                             return;
@@ -96,12 +96,12 @@ class PlayerBehavior extends Component {
             case 'down':
                 player.rotation_z = 180;
                 //check for walls
-                if(tilemap.tile_at_pos('ground', new Vector(player.pos.x, player.pos.y + tilemap.tile_height), 1).id <= 16) return;
-                if(tilemap.tile_at_pos('obstacles', new Vector(player.pos.x, player.pos.y + tilemap.tile_height), 1).id != 0) return;
+                if(tilemap.tile_at_pos('ground', player.pos.x, player.pos.y + tilemap.tile_height, 1).id <= 16) return;
+                if(tilemap.tile_at_pos('obstacles', player.pos.x, player.pos.y + tilemap.tile_height, 1).id != 0) return;
                 //check for enemies
                 for(enemy in enemy_pool) {
-                    if(tilemap.worldpos_to_map(enemy.pos, 1).x == tilemap.worldpos_to_map(player.pos, 1).x) {
-                        if(tilemap.worldpos_to_map(enemy.pos, 1).y == tilemap.worldpos_to_map(player.pos, 1).y + 1) {
+                    if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y, 1).x == tilemap.tile_coord(player.pos.x, player.pos.y, 1).x) {
+                        if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y, 1).y == tilemap.tile_coord(player.pos.x, player.pos.y, 1).y + 1) {
                             attack(enemy);
                             // trace("killed " + enemy.name);
                             return;
@@ -113,12 +113,12 @@ class PlayerBehavior extends Component {
             case 'left':
                 player.rotation_z = 270;
                 //check for walls
-                if(tilemap.tile_at_pos('ground', new Vector(player.pos.x - tilemap.tile_width, player.pos.y), 1).id <= 16) return;
-                if(tilemap.tile_at_pos('obstacles', new Vector(player.pos.x - tilemap.tile_width, player.pos.y), 1).id != 0) return;
+                if(tilemap.tile_at_pos('ground', player.pos.x - tilemap.tile_width, player.pos.y, 1).id <= 16) return;
+                if(tilemap.tile_at_pos('obstacles', player.pos.x - tilemap.tile_width, player.pos.y, 1).id != 0) return;
                 //check for enemies
                 for(enemy in enemy_pool) {
-                    if(tilemap.worldpos_to_map(enemy.pos, 1).y == tilemap.worldpos_to_map(player.pos, 1).y) {
-                        if(tilemap.worldpos_to_map(enemy.pos, 1).x == tilemap.worldpos_to_map(player.pos, 1).x - 1) {
+                    if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y, 1).y == tilemap.tile_coord(player.pos.x, player.pos.y, 1).y) {
+                        if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y, 1).x == tilemap.tile_coord(player.pos.x, player.pos.y, 1).x - 1) {
                             attack(enemy);
                             // trace("killed " + enemy.name);
                             return;

@@ -116,7 +116,7 @@ class PlayState extends State {
             name : 'player',
             depth : 1,
             texture : player_texture,
-            pos : map1.tile_pos('ground', 1, 1).add_xyz(map1.tile_width/2, map1.tile_height/2)
+            pos : map1.tile_pos(1, 1).add_xyz(map1.tile_width/2, map1.tile_height/2)
         }); //player
         player.add(new PlayerBehavior('player_behavior'));
         player.add(new Collider('player_collider'));
@@ -223,7 +223,7 @@ class PlayState extends State {
 
     //TODO: check position where enemy will be placed, make sure it's valid. check tile_at_pos for valid floor tile, make sure not on player/other enemy
     function get_enemy_position() {
-        return map1.tile_pos('ground',Luxe.utils.random.int(1,20),Luxe.utils.random.int(1,20)).add_xyz(map1.tile_width/2, map1.tile_height/2);
+        return map1.tile_pos(Luxe.utils.random.int(1,20),Luxe.utils.random.int(1,20)).add_xyz(map1.tile_width/2, map1.tile_height/2);
     }
 
 

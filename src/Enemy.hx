@@ -49,8 +49,8 @@ class Enemy extends Component {
     //DONE: moves when/after player moves (events?)
     function move(_) {
 
-        var dx = tilemap.worldpos_to_map(entity.pos).x - tilemap.worldpos_to_map(player.pos).x;
-        var dy = tilemap.worldpos_to_map(entity.pos).y - tilemap.worldpos_to_map(player.pos).y;
+        var dx = tilemap.tile_coord(entity.pos.x, entity.pos.y).x - tilemap.tile_coord(player.pos.x, player.pos.y).x;
+        var dy = tilemap.tile_coord(entity.pos.x, entity.pos.y).y - tilemap.tile_coord(player.pos.x, player.pos.y).y;
         // trace(dx);
         // trace(dy);
 
@@ -122,15 +122,15 @@ class Enemy extends Component {
 
     function step_up() {
 
-        if(tilemap.tile_at_pos('ground', new Vector(entity.pos.x, entity.pos.y - tilemap.tile_height), 1).id <= 16) return;
-        if(tilemap.tile_at_pos('obstacles', new Vector(entity.pos.x, entity.pos.y - tilemap.tile_height), 1).id != 0) return;
+        if(tilemap.tile_at_pos('ground', entity.pos.x, entity.pos.y - tilemap.tile_height, 1).id <= 16) return;
+        if(tilemap.tile_at_pos('obstacles', entity.pos.x, entity.pos.y - tilemap.tile_height, 1).id != 0) return;
         for(enemy in enemy_pool) {
-            if(tilemap.worldpos_to_map(enemy.pos).x == tilemap.worldpos_to_map(entity.pos).x) {
-                if(tilemap.worldpos_to_map(enemy.pos).y == tilemap.worldpos_to_map(entity.pos).y - 1) return;
+            if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y).x == tilemap.tile_coord(entity.pos.x, entity.pos.y).x) {
+                if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y).y == tilemap.tile_coord(entity.pos.x, entity.pos.y).y - 1) return;
             }
         }
-        if(tilemap.worldpos_to_map(entity.pos).x == tilemap.worldpos_to_map(player.pos).x) {
-            if(tilemap.worldpos_to_map(entity.pos,1).y - 1 == tilemap.worldpos_to_map(player.pos).y) {
+        if(tilemap.tile_coord(entity.pos.x, entity.pos.y).x == tilemap.tile_coord(player.pos.x, player.pos.y).x) {
+            if(tilemap.tile_coord(entity.pos.x, entity.pos.y,1).y - 1 == tilemap.tile_coord(player.pos.x, player.pos.y).y) {
                 enemy_attacks();
                 return;
             }
@@ -141,15 +141,15 @@ class Enemy extends Component {
 
     function step_right() {
 
-        if(tilemap.tile_at_pos('ground', new Vector(entity.pos.x + tilemap.tile_width, entity.pos.y), 1).id <= 16) return;
-        if(tilemap.tile_at_pos('obstacles', new Vector(entity.pos.x + tilemap.tile_width, entity.pos.y), 1).id != 0) return;
+        if(tilemap.tile_at_pos('ground', entity.pos.x + tilemap.tile_width, entity.pos.y, 1).id <= 16) return;
+        if(tilemap.tile_at_pos('obstacles', entity.pos.x + tilemap.tile_width, entity.pos.y, 1).id != 0) return;
         for(enemy in enemy_pool) {
-            if(tilemap.worldpos_to_map(enemy.pos).y == tilemap.worldpos_to_map(entity.pos).y) {
-                if(tilemap.worldpos_to_map(enemy.pos).x == tilemap.worldpos_to_map(entity.pos).x + 1) return;
+            if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y).y == tilemap.tile_coord(entity.pos.x, entity.pos.y).y) {
+                if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y).x == tilemap.tile_coord(entity.pos.x, entity.pos.y).x + 1) return;
             }
         }
-        if(tilemap.worldpos_to_map(entity.pos).y == tilemap.worldpos_to_map(player.pos).y) {
-            if(tilemap.worldpos_to_map(entity.pos,1).x + 1 == tilemap.worldpos_to_map(player.pos).x) {
+        if(tilemap.tile_coord(entity.pos.x, entity.pos.y).y == tilemap.tile_coord(player.pos.x, player.pos.y).y) {
+            if(tilemap.tile_coord(entity.pos.x, entity.pos.y,1).x + 1 == tilemap.tile_coord(player.pos.x, player.pos.y).x) {
                 enemy_attacks();
                 return;
             }
@@ -160,15 +160,15 @@ class Enemy extends Component {
 
     function step_down() {
 
-        if(tilemap.tile_at_pos('ground', new Vector(entity.pos.x, entity.pos.y + tilemap.tile_height), 1).id <= 16) return;
-        if(tilemap.tile_at_pos('obstacles', new Vector(entity.pos.x, entity.pos.y + tilemap.tile_height), 1).id != 0) return;
+        if(tilemap.tile_at_pos('ground', entity.pos.x, entity.pos.y + tilemap.tile_height, 1).id <= 16) return;
+        if(tilemap.tile_at_pos('obstacles', entity.pos.x, entity.pos.y + tilemap.tile_height, 1).id != 0) return;
         for(enemy in enemy_pool) {
-            if(tilemap.worldpos_to_map(enemy.pos).x == tilemap.worldpos_to_map(entity.pos).x) {
-                if(tilemap.worldpos_to_map(enemy.pos).y == tilemap.worldpos_to_map(entity.pos).y + 1) return;
+            if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y).x == tilemap.tile_coord(entity.pos.x, entity.pos.y).x) {
+                if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y).y == tilemap.tile_coord(entity.pos.x, entity.pos.y).y + 1) return;
             }
         }
-        if(tilemap.worldpos_to_map(entity.pos).x == tilemap.worldpos_to_map(player.pos).x) {
-            if(tilemap.worldpos_to_map(entity.pos,1).y + 1 == tilemap.worldpos_to_map(player.pos).y) {
+        if(tilemap.tile_coord(entity.pos.x, entity.pos.y).x == tilemap.tile_coord(player.pos.x, player.pos.y).x) {
+            if(tilemap.tile_coord(entity.pos.x, entity.pos.y,1).y + 1 == tilemap.tile_coord(player.pos.x, player.pos.y).y) {
                 enemy_attacks();
                 return;
             }
@@ -179,15 +179,15 @@ class Enemy extends Component {
 
     function step_left() {
 
-        if(tilemap.tile_at_pos('ground', new Vector(entity.pos.x - tilemap.tile_width, entity.pos.y), 1).id <= 16) return;
-        if(tilemap.tile_at_pos('obstacles', new Vector(entity.pos.x - tilemap.tile_width, entity.pos.y), 1).id != 0) return;
+        if(tilemap.tile_at_pos('ground', entity.pos.x - tilemap.tile_width, entity.pos.y, 1).id <= 16) return;
+        if(tilemap.tile_at_pos('obstacles', entity.pos.x - tilemap.tile_width, entity.pos.y, 1).id != 0) return;
         for(enemy in enemy_pool) {
-            if(tilemap.worldpos_to_map(enemy.pos).y == tilemap.worldpos_to_map(entity.pos).y) {
-                if(tilemap.worldpos_to_map(enemy.pos).x == tilemap.worldpos_to_map(entity.pos).x - 1) return;
+            if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y).y == tilemap.tile_coord(entity.pos.x, entity.pos.y).y) {
+                if(tilemap.tile_coord(enemy.pos.x, enemy.pos.y).x == tilemap.tile_coord(entity.pos.x, entity.pos.y).x - 1) return;
             }
         }
-        if(tilemap.worldpos_to_map(entity.pos).y == tilemap.worldpos_to_map(player.pos).y) {
-            if(tilemap.worldpos_to_map(entity.pos,1).x - 1 == tilemap.worldpos_to_map(player.pos).x) {
+        if(tilemap.tile_coord(entity.pos.x, entity.pos.y).y == tilemap.tile_coord(player.pos.x, player.pos.y).y) {
+            if(tilemap.tile_coord(entity.pos.x, entity.pos.y,1).x - 1 == tilemap.tile_coord(player.pos.x, player.pos.y).x) {
                 enemy_attacks();
                 return;
             }
